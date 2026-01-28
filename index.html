@@ -8,6 +8,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet">
+    <script src="https://assets.calendly.com/assets/external/widget.js" type="text/javascript" async></script>
     <style>
         * {
             margin: 0;
@@ -33,6 +35,10 @@
             overflow-x: hidden;
         }
 
+        body.menu-open {
+            overflow: hidden;
+        }
+
         .container {
             max-width: 1400px;
             margin: 0 auto;
@@ -47,80 +53,149 @@
             background: rgba(0, 0, 0, 0.95);
             backdrop-filter: blur(10px);
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            transition: all 0.3s ease;
         }
 
         nav {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 10px 40px;
-            transition: all 0.3s ease;
+            padding: 20px 40px;
+        }
+
+        .logo {
+            height: 40px;
+            z-index: 1001;
+            position: relative;
         }
 
         .logo img {
-            height: 40px;
+            height: 100%;
             width: auto;
             filter: invert(1);
-            transition: all 0.3s ease;
         }
 
         /* Hamburger Menu */
         .hamburger {
-            display: none;
+            display: flex;
             flex-direction: column;
+            justify-content: space-between;
+            width: 28px;
+            height: 20px;
             cursor: pointer;
-            gap: 5px;
+            z-index: 1001;
+            position: relative;
+            transition: transform 0.3s;
+        }
+
+        .hamburger:hover {
+            transform: scale(1.1);
         }
 
         .hamburger span {
             display: block;
-            height: 3px;
-            width: 25px;
+            height: 2px;
+            width: 100%;
             background: var(--white);
-            border-radius: 2px;
-            transition: all 0.3s ease;
+            transition: all 0.3s;
         }
 
-        .mobile-nav {
-            display: none;
-            position: absolute;
-            top: 60px;
-            right: 40px;
-            background: var(--dark-grey);
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 8px;
-            overflow: hidden;
-            flex-direction: column;
+        .hamburger.active span:nth-child(1) {
+            transform: rotate(45deg) translate(7px, 7px);
         }
 
-        .mobile-nav a {
-            padding: 15px 30px;
-            text-decoration: none;
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(7px, -7px);
+        }
+
+        /* Full Screen Menu */
+        .menu-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.98);
+            backdrop-filter: blur(10px);
+            z-index: 999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.4s, visibility 0.4s;
+        }
+
+        .menu-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .menu-content {
+            text-align: center;
+            transform: translateY(30px);
+            transition: transform 0.4s 0.1s;
+        }
+
+        .menu-overlay.active .menu-content {
+            transform: translateY(0);
+        }
+
+        .menu-links {
+            list-style: none;
+            margin-bottom: 40px;
+        }
+
+        .menu-links li {
+            margin: 20px 0;
+        }
+
+        .menu-links a {
             color: var(--white);
-            border-bottom: 1px solid rgba(255,255,255,0.05);
+            text-decoration: none;
+            font-size: 48px;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: -0.02em;
+            transition: all 0.3s;
+            display: inline-block;
         }
 
-        .mobile-nav a:last-child {
-            border-bottom: none;
+        .menu-links a:hover {
+            color: var(--green);
+            transform: translateX(10px);
         }
 
-        .nav-cta {
+        .menu-cta {
             background: var(--white);
             color: var(--black);
-            padding: 12px 28px;
+            padding: 18px 36px;
             border-radius: 4px;
             text-decoration: none;
-            font-weight: 600;
-            font-size: 14px;
+            font-weight: 700;
+            font-size: 16px;
             text-transform: uppercase;
             letter-spacing: 0.5px;
-            transition: all 0.2s;
+            transition: all 0.3s;
+            display: inline-block;
         }
 
-        .nav-cta:hover {
-            background: rgba(255, 255, 255, 0.9);
-            transform: translateY(-1px);
+        .menu-cta:hover {
+            background: var(--green);
+            transform: translateY(-2px);
+        }
+
+        /* Page Sections */
+        .page-section {
+            display: none;
+            min-height: 100vh;
+        }
+
+        .page-section.active {
+            display: block;
         }
 
         /* Hero Section */
@@ -179,7 +254,7 @@
             line-height: 1.6;
         }
 
-        .hero-cta {
+        .hero-cta, .cta-button {
             display: inline-flex;
             align-items: center;
             gap: 12px;
@@ -193,9 +268,11 @@
             text-transform: uppercase;
             letter-spacing: 0.5px;
             transition: all 0.3s;
+            border: none;
+            cursor: pointer;
         }
 
-        .hero-cta:hover {
+        .hero-cta:hover, .cta-button:hover {
             background: rgba(255, 255, 255, 0.95);
             transform: translateY(-2px);
             box-shadow: 0 10px 40px rgba(255, 255, 255, 0.2);
@@ -206,26 +283,519 @@
             font-size: 20px;
         }
 
-        .hero-trust {
-            margin-top: 60px;
-            font-size: 14px;
-            color: var(--light-grey);
-            font-weight: 500;
+        /* Scrolling Banner */
+        .scrolling-banner {
+            background: var(--dark-grey);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 24px 0;
+            overflow: hidden;
+            white-space: nowrap;
         }
 
-        /* Sections and other styles (services, why, comparison, CTA, footer) remain unchanged from your original 813 lines */
+        .banner-track {
+            display: inline-block;
+            animation: scroll 30s linear infinite;
+        }
+
+        .banner-item {
+            display: inline-block;
+            padding: 0 60px;
+            font-size: 16px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .banner-item::before {
+            content: '● ';
+            color: var(--green);
+            margin-right: 12px;
+        }
+
+        @keyframes scroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        /* Services Section */
+        .services-section {
+            padding: 120px 40px;
+            background: var(--black);
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 80px;
+        }
+
+        .section-label {
+            display: inline-block;
+            text-transform: uppercase;
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            color: var(--light-grey);
+            margin-bottom: 16px;
+        }
+
+        .section-title {
+            font-size: 56px;
+            font-weight: 900;
+            line-height: 1.1;
+            letter-spacing: -0.03em;
+            text-transform: uppercase;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 32px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .service-card {
+            background: var(--dark-grey);
+            padding: 48px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s;
+        }
+
+        .service-card:hover {
+            border-color: rgba(255, 255, 255, 0.3);
+            transform: translateY(-4px);
+        }
+
+        .service-icon {
+            width: 56px;
+            height: 56px;
+            background: var(--white);
+            border-radius: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            margin-bottom: 24px;
+            position: relative;
+        }
+
+        .service-icon::before {
+            content: '';
+            width: 24px;
+            height: 24px;
+            background: var(--black);
+        }
+
+        .service-card:nth-child(1) .service-icon::before {
+            clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+        }
+
+        .service-card:nth-child(2) .service-icon::before {
+            clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+        }
+
+        .service-card:nth-child(3) .service-icon::before {
+            clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
+        }
+
+        .service-card h3 {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: -0.01em;
+        }
+
+        .service-card h4 {
+            font-size: 15px;
+            color: var(--light-grey);
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .service-card p {
+            color: var(--light-grey);
+            line-height: 1.7;
+            font-size: 16px;
+        }
+
+        /* Why Section */
+        .why-section {
+            padding: 120px 40px;
+            background: var(--dark);
+        }
+
+        .why-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 40px;
+            max-width: 1200px;
+            margin: 60px auto 0;
+        }
+
+        .why-item {
+            display: flex;
+            gap: 20px;
+        }
+
+        .why-icon {
+            flex-shrink: 0;
+            width: 28px;
+            height: 28px;
+        }
+
+        .why-icon svg {
+            width: 100%;
+            height: 100%;
+            stroke: var(--green);
+        }
+
+        .why-item h3 {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: -0.01em;
+        }
+
+        .why-item p {
+            color: var(--light-grey);
+            line-height: 1.6;
+            font-size: 15px;
+        }
+
+        /* Comparison Table */
+        .comparison-section {
+            padding: 120px 40px;
+            background: var(--black);
+        }
+
+        .comparison-table {
+            max-width: 1000px;
+            margin: 60px auto 0;
+            background: var(--dark-grey);
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .comparison-header {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            background: var(--medium-grey);
+            padding: 24px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            font-weight: 700;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .comparison-header div:nth-child(3) {
+            color: var(--green);
+        }
+
+        .comparison-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            padding: 20px 24px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            align-items: center;
+            font-size: 15px;
+        }
+
+        .comparison-row:last-child {
+            border-bottom: none;
+        }
+
+        .comparison-check {
+            text-align: center;
+            font-size: 20px;
+        }
+
+        .comparison-check.yes {
+            color: var(--green);
+        }
+
+        .comparison-check.no {
+            color: #ef4444;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            padding: 140px 40px;
+            background: var(--dark-grey);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+        }
+
+        .cta-section h2 {
+            font-size: 64px;
+            font-weight: 900;
+            line-height: 1.1;
+            letter-spacing: -0.03em;
+            margin-bottom: 24px;
+            text-transform: uppercase;
+        }
+
+        .cta-section p {
+            font-size: 20px;
+            color: var(--light-grey);
+            margin-bottom: 48px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* About Page */
+        .about-hero {
+            padding: 180px 40px 80px;
+            text-align: center;
+            background: var(--black);
+        }
+
+        .about-hero h1 {
+            font-size: 72px;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: -0.03em;
+            margin-bottom: 24px;
+        }
+
+        .about-hero p {
+            font-size: 22px;
+            color: var(--light-grey);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .about-content {
+            padding: 100px 40px;
+            background: var(--dark);
+        }
+
+        .about-grid {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: grid;
+            gap: 60px;
+        }
+
+        .about-block h2 {
+            font-size: 36px;
+            font-weight: 900;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+            color: var(--green);
+        }
+
+        .about-block p {
+            font-size: 18px;
+            color: var(--light-grey);
+            line-height: 1.8;
+            margin-bottom: 16px;
+        }
+
+        /* Testimonials Page */
+        .testimonials-hero {
+            padding: 180px 40px 80px;
+            text-align: center;
+            background: var(--black);
+        }
+
+        .testimonials-hero h1 {
+            font-size: 72px;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: -0.03em;
+            margin-bottom: 24px;
+        }
+
+        .testimonials-hero p {
+            font-size: 22px;
+            color: var(--light-grey);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .testimonials-grid {
+            padding: 100px 40px;
+            background: var(--dark);
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .testimonial-card {
+            background: var(--dark-grey);
+            padding: 48px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s;
+        }
+
+        .testimonial-card:hover {
+            border-color: var(--green);
+            transform: translateY(-4px);
+        }
+
+        .testimonial-stars {
+            color: var(--green);
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .testimonial-text {
+            font-size: 18px;
+            line-height: 1.7;
+            color: var(--light-grey);
+            margin-bottom: 24px;
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 24px;
+        }
+
+        .author-avatar {
+            width: 50px;
+            height: 50px;
+            background: var(--green);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 20px;
+        }
+
+        .author-info h4 {
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .author-info p {
+            color: var(--light-grey);
+            font-size: 14px;
+        }
+
+        /* Contact Page */
+        .contact-hero {
+            padding: 180px 40px 80px;
+            text-align: center;
+            background: var(--black);
+        }
+
+        .contact-hero h1 {
+            font-size: 72px;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: -0.03em;
+            margin-bottom: 24px;
+        }
+
+        .contact-hero p {
+            font-size: 22px;
+            color: var(--light-grey);
+            max-width: 800px;
+            margin: 0 auto 40px;
+        }
+
+        .contact-content {
+            padding: 100px 40px;
+            background: var(--dark);
+            text-align: center;
+        }
+
+        .contact-info {
+            max-width: 600px;
+            margin: 0 auto 60px;
+        }
+
+        .contact-item {
+            margin-bottom: 32px;
+        }
+
+        .contact-item h3 {
+            font-size: 20px;
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+        }
+
+        .contact-item a {
+            color: var(--green);
+            text-decoration: none;
+            font-size: 18px;
+            transition: all 0.3s;
+        }
+
+        .contact-item a:hover {
+            color: var(--white);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--black);
+            padding: 60px 40px 40px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .footer-logo {
+            height: 50px;
+            margin: 0 auto 40px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .footer-logo img {
+            height: 100%;
+            width: auto;
+            filter: invert(1);
+        }
+
+        .footer-bottom {
+            margin-top: 40px;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--light-grey);
+            font-size: 14px;
+        }
 
         /* Responsive */
         @media (max-width: 1024px) {
-            .intro-grid {
-                grid-template-columns: 1fr;
-                gap: 60px;
-            }
-
             .comparison-header,
             .comparison-row {
                 grid-template-columns: 2fr 1fr 1fr;
                 font-size: 13px;
+            }
+
+            .testimonials-grid {
+                grid-template-columns: 1fr;
             }
         }
 
@@ -236,6 +806,10 @@
 
             .container {
                 padding: 0 20px;
+            }
+
+            .menu-links a {
+                font-size: 36px;
             }
 
             .hero {
@@ -258,10 +832,6 @@
                 font-size: 40px;
             }
 
-            .intro-content h2 {
-                font-size: 36px;
-            }
-
             .services-grid {
                 grid-template-columns: 1fr;
             }
@@ -274,19 +844,23 @@
                 font-size: 42px;
             }
 
-            .hamburger {
-                display: flex;
+            .about-hero h1,
+            .testimonials-hero h1,
+            .contact-hero h1 {
+                font-size: 48px;
             }
 
-            .mobile-nav {
-                display: flex;
+            .about-hero p,
+            .testimonials-hero p,
+            .contact-hero p {
+                font-size: 18px;
             }
         }
     </style>
 </head>
 <body>
     <header>
-        <nav class="container">
+        <nav>
             <div class="logo">
                 <img src="logo.png" alt="Onstra">
             </div>
@@ -295,44 +869,345 @@
                 <span></span>
                 <span></span>
             </div>
-            <div class="mobile-nav" id="mobileNav">
-                <a href="#about">About Us</a>
-                <a href="#testimonials">Testimonials</a>
-                <a href="#contact">Contact</a>
-                <!-- Add more links as needed -->
-            </div>
-            <a href="#contact" class="nav-cta">Get Started</a>
         </nav>
     </header>
 
-    <!-- Hero, Services, Why, Comparison, CTA Sections remain same -->
-
-    <!-- About Us Section -->
-    <section id="about" style="padding:120px 40px; background:var(--dark);">
-        <div class="container">
-            <h2 style="font-size:48px; font-weight:900; text-transform:uppercase; margin-bottom:24px;">About Us</h2>
-            <p style="color:var(--light-grey); line-height:1.7; font-size:16px;">
-                At Onstra, we empower business owners to operate with greater efficiency and strategic insight, transforming the challenge of managing a business into an opportunity for intelligent growth. Recognizing the common struggles of endless task management, missed opportunities, and time constraints, we intervene to deliver essential clarity, strategic direction, and practical, hands-on support. Our approach is deeply collaborative; we manage each client’s business as if it were our own, integrating rigorous planning with innovative problem-solving to address issues often overlooked by others, and leveraging our proven frameworks to meticulously identify underlying obstacles hindering progress before implementing bespoke, actionable solutions designed for tangible results. Ultimately, our mission extends beyond mere service provision; we aim to be a dedicated partner, an indispensable extra set of eyes, and the steadfast team that ensures your business achieves sustained growth with unwavering confidence and consistency.
-            </p>
+    <!-- Full Screen Menu -->
+    <div class="menu-overlay" id="menuOverlay">
+        <div class="menu-content">
+            <ul class="menu-links">
+                <li><a href="#" data-page="home">Home</a></li>
+                <li><a href="#" data-page="about">About Us</a></li>
+                <li><a href="#" data-page="testimonials">Testimonials</a></li>
+                <li><a href="#" data-page="contact">Get In Touch</a></li>
+            </ul>
+            <button class="menu-cta" id="menuCtaBtn">Schedule a Call</button>
         </div>
-    </section>
+    </div>
 
-    <!-- Contact Section with Calendly Form -->
-    <section class="cta-section" id="contact">
-        <h2>Ready to Take<br>Control?</h2>
-        <p>Let's talk about automating your business so you can finally stop running everything from memory.</p>
-        <!-- Calendly Inline Form -->
-        <div id="calendlyEmbed" style="min-width:320px; height:630px;"></div>
-        <script src="https://assets.calendly.com/assets/external/widget.js" type="text/javascript"></script>
-        <script type="text/javascript">
-            Calendly.initInlineWidget({
-                url: 'https://calendly.com/onstrahq/setup-and-growth-consultation-1',
-                parentElement: document.getElementById('calendlyEmbed'),
-                prefill: {},
-                utm: {}
-            });
-        </script>
-    </section>
+    <!-- Home Page -->
+    <div id="home" class="page-section active">
+        <section class="hero">
+            <div class="hero-content">
+                <span class="hero-label">Automation for Service Businesses</span>
+                <h1>Stop Running<br>Your Business<br>From Memory</h1>
+                <p>We automate the chaos so you can focus on what matters. No more missed leads, forgotten follow-ups, or manual busywork holding you back.</p>
+                <button class="hero-cta cta-button">Get Control Back</button>
+            </div>
+        </section>
+
+        <div class="scrolling-banner">
+            <div class="banner-track">
+                <span class="banner-item">Systems That Scale</span>
+                <span class="banner-item">Ready-to-Close Appointments</span>
+                <span class="banner-item">No More Wasted Time</span>
+                <span class="banner-item">Rapid Results</span>
+                <span class="banner-item">Systems That Scale</span>
+                <span class="banner-item">Ready-to-Close Appointments</span>
+                <span class="banner-item">No More Wasted Time</span>
+                <span class="banner-item">Rapid Results</span>
+            </div>
+        </div>
+
+        <section class="services-section">
+            <div class="section-header">
+                <span class="section-label">What We Do</span>
+                <h2 class="section-title">Whether You're Just<br>Starting Out or Scaling Fast</h2>
+            </div>
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-icon"></div>
+                    <h3>Lead Capture & Routing</h3>
+                    <h4>Connect everything in one place</h4>
+                    <p>All your inbound channels—calls, texts, forms, social—into one system that never misses an inquiry.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon"></div>
+                    <h3>Automated Follow-Up</h3>
+                    <h4>Never miss a lead again</h4>
+                    <p>Sequences that automatically reach out to leads via text, email, or voicemail until they respond.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon"></div>
+                    <h3>Booking & Sales Automation</h3>
+                    <h4>Turn leads into revenue</h4>
+                    <p>Guide prospects from initial contact to booked appointment or completed sale without manual intervention.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="why-section">
+            <div class="section-header">
+                <span class="section-label">Why Onstra</span>
+                <h2 class="section-title">Built Different</h2>
+            </div>
+            <div class="why-grid">
+                <div class="why-item">
+                    <div class="why-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                            <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg>
+                    </div>
+                    <div>
+                        <h3>Automation First</h3>
+                        <p>We automate what you already have—your leads, your follow-ups, your workflows. No upsells, no lead gen pitches.</p>
+                    </div>
+                </div>
+                <div class="why-item">
+                    <div class="why-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                            <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg>
+                    </div>
+                    <div>
+                        <h3>Service Business Focused</h3>
+                        <p>We understand the chaos of running a service business because we've built systems for operators like you.</p>
+                    </div>
+                </div>
+                <div class="why-item">
+                    <div class="why-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                            <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg>
+                    </div>
+                    <div>
+                        <h3>Flexible Engagement</h3>
+                        <p>Retainers or one-time setups. Short-term or long-term. Cancel anytime. We adapt to how you work.</p>
+                    </div>
+                </div>
+                <div class="why-item">
+                    <div class="why-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                            <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg>
+                    </div>
+                    <div>
+                        <h3>Fast & Responsive</h3>
+                        <p>No waiting weeks for updates. We move fast, optimize aggressively, and stay on top of your systems.</p>
+                    </div>
+                </div>
+                <div class="why-item">
+                    <div class="why-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                            <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg>
+                    </div>
+                    <div>
+                        <h3>Control & Clarity</h3>
+                        <p>Finally see where every lead comes from, what's working, and what needs fixing. No more guessing.</p>
+                    </div>
+                </div>
+                <div class="why-item">
+                    <div class="why-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                            <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg>
+                    </div>
+                    <div>
+                        <h3>Real Support</h3>
+                        <p>You're not account #247. We're hands-on, available, and actually care about making your systems work.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="comparison-section">
+            <div class="section-header">
+                <span class="section-label">What Makes Us Different</span>
+                <h2 class="section-title">How We're Built Different</h2>
+            </div>
+            <div class="comparison-table">
+                <div class="comparison-header">
+                    <div></div>
+                    <div>Other Agencies</div>
+                    <div>Onstra</div>
+                </div>
+                <div class="comparison-row">
+                    <div>Built by operators who understand service businesses</div>
+                    <div class="comparison-check no">✕</div>
+                    <div class="comparison-check yes">✓</div>
+                </div>
+                <div class="comparison-row">
+                    <div>Cancel anytime, no locked-in contracts</div>
+                    <div class="comparison-check no">✕</div>
+                    <div class="comparison-check yes">✓</div>
+                </div>
+                <div class="comparison-row">
+                    <div>Automate what you already have, no lead generation upsells</div>
+                    <div class="comparison-check no">✕</div>
+                    <div class="comparison-check yes">✓</div>
+                </div>
+                <div class="comparison-row">
+                    <div>Fast response times and aggressive optimization</div>
+                    <div class="comparison-check no">✕</div>
+                    <div class="comparison-check yes">✓</div>
+                </div>
+                <div class="comparison-row">
+                    <div>Transparent pricing: retainers or one-time setups</div>
+                    <div class="comparison-check no">✕</div>
+                    <div class="comparison-check yes">✓</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="cta-section">
+            <h2>Ready to Take<br>Control?</h2>
+            <p>Let's talk about automating your business so you can finally stop running everything from memory.</p>
+            <button class="hero-cta cta-button">Schedule a Call</button>
+        </section>
+    </div>
+
+    <!-- About Us Page -->
+    <div id="about" class="page-section">
+        <section class="about-hero">
+            <h1>About Onstra</h1>
+            <p>We're operators who got tired of watching service businesses drown in chaos. So we built something better.</p>
+        </section>
+
+        <section class="about-content">
+            <div class="about-grid">
+                <div class="about-block">
+                    <h2>Our Story</h2>
+                    <p>Onstra was born from frustration. We watched talented service business owners waste hours on repetitive tasks, lose leads to disorganization, and burn out trying to scale operations that ran entirely from memory.</p>
+                    <p>We knew there had to be a better way. Not through generic advice or cookie-cutter solutions, but through real automation that actually works for how service businesses operate.</p>
+                </div>
+
+                <div class="about-block">
+                    <h2>What We Believe</h2>
+                    <p>Your time is too valuable to waste on manual busywork. Every lead deserves a response. Every follow-up should happen automatically. Every system should work for you, not against you.</p>
+                    <p>We believe in automation that's practical, not flashy. Solutions that launch fast and improve quickly. Relationships built on results, not contracts.</p>
+                </div>
+
+                <div class="about-block">
+                    <h2>How We Work</h2>
+                    <p>We dive deep into your business, understand your chaos, and build systems that eliminate it. No fluff, no upsells, no BS. Just automation that captures leads, nurtures prospects, and books appointments while you focus on delivering great service.</p>
+                    <p>We move fast, stay responsive, and obsess over making your systems better. Because when you win, we win.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="cta-section">
+            <h2>Ready to Work<br>Together?</h2>
+            <p>Let's build the automated systems your business deserves.</p>
+            <button class="hero-cta cta-button">Schedule a Call</button>
+        </section>
+    </div>
+
+    <!-- Testimonials Page -->
+    <div id="testimonials" class="page-section">
+        <section class="testimonials-hero">
+            <h1>What Clients Say</h1>
+            <p>Real results from real service business owners who took control of their chaos.</p>
+        </section>
+
+        <section class="testimonials-grid">
+            <div class="testimonial-card">
+                <div class="testimonial-stars">★★★★★</div>
+                <p class="testimonial-text">"We were losing 40% of our leads because we couldn't follow up fast enough. Onstra automated our entire intake process and now every lead gets an immediate response. Our close rate jumped 60% in the first month."</p>
+                <div class="testimonial-author">
+                    <div class="author-avatar">MR</div>
+                    <div class="author-info">
+                        <h4>Mike Rodriguez</h4>
+                        <p>Owner, Elite HVAC Services</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="testimonial-card">
+                <div class="testimonial-stars">★★★★★</div>
+                <p class="testimonial-text">"Before Onstra, I was manually texting and calling every lead. It was exhausting and inconsistent. Now everything runs automatically and I can actually focus on the jobs that matter. Game changer."</p>
+                <div class="testimonial-author">
+                    <div class="author-avatar">SJ</div>
+                    <div class="author-info">
+                        <h4>Sarah Johnson</h4>
+                        <p>Founder, Premier Plumbing Co.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="testimonial-card">
+                <div class="testimonial-stars">★★★★★</div>
+                <p class="testimonial-text">"The team at Onstra actually understands service businesses. They didn't try to sell us on lead gen or marketing fluff—they just fixed our broken systems and now everything works. Worth every penny."</p>
+                <div class="testimonial-author">
+                    <div class="author-avatar">DK</div>
+                    <div class="author-info">
+                        <h4>David Kim</h4>
+                        <p>CEO, ProClean Services</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="testimonial-card">
+                <div class="testimonial-stars">★★★★★</div>
+                <p class="testimonial-text">"We've worked with other agencies before and they all overpromised and underdelivered. Onstra is different—they move fast, communicate clearly, and their automation actually works. Finally found a partner who gets it."</p>
+                <div class="testimonial-author">
+                    <div class="author-avatar">JW</div>
+                    <div class="author-info">
+                        <h4>Jennifer Williams</h4>
+                        <p>Director, Apex Landscaping</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="testimonial-card">
+                <div class="testimonial-stars">★★★★★</div>
+                <p class="testimonial-text">"Our booking rate went from 15% to 42% after implementing Onstra's automated follow-up sequences. The ROI paid for itself in the first two weeks. Absolutely blown away by the results."</p>
+                <div class="testimonial-author">
+                    <div class="author-avatar">TC</div>
+                    <div class="author-info">
+                        <h4>Tom Chen</h4>
+                        <p>Owner, Precision Electrical</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="testimonial-card">
+                <div class="testimonial-stars">★★★★★</div>
+                <p class="testimonial-text">"I can't believe I waited this long to automate. Onstra set everything up in days, not weeks. Now my team can focus on service instead of chasing leads. Best business decision I've made this year."</p>
+                <div class="testimonial-author">
+                    <div class="author-avatar">LM</div>
+                    <div class="author-info">
+                        <h4>Lisa Martinez</h4>
+                        <p>President, Crown Roofing</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="cta-section">
+            <h2>Ready for Results<br>Like These?</h2>
+            <p>Join the service businesses that chose automation over chaos.</p>
+            <button class="hero-cta cta-button">Schedule a Call</button>
+        </section>
+    </div>
+
+    <!-- Contact Page -->
+    <div id="contact" class="page-section">
+        <section class="contact-hero">
+            <h1>Get In Touch</h1>
+            <p>Ready to stop running your business from memory? Let's talk about automating your chaos.</p>
+            <button class="hero-cta cta-button">Schedule a Call Now</button>
+        </section>
+
+        <section class="contact-content">
+            <div class="contact-info">
+                <div class="contact-item">
+                    <h3>Email Us</h3>
+                    <a href="mailto:hello@onstra.com">hello@onstra.com</a>
+                </div>
+                <div class="contact-item">
+                    <h3>Quick Response</h3>
+                    <p style="color: var(--light-grey); font-size: 16px;">We typically respond within 2-4 hours during business hours.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="cta-section">
+            <h2>The Fastest Way<br>To Get Started</h2>
+            <p>Book a consultation call and we'll show you exactly how we can automate your business.</p>
+            <button class="hero-cta cta-button">Schedule Your Call</button>
+        </section>
+    </div>
 
     <footer>
         <div class="footer-content">
@@ -346,23 +1221,64 @@
     </footer>
 
     <script>
-        // Hamburger toggle
+        // Hamburger Menu Toggle
         const hamburger = document.getElementById('hamburger');
-        const mobileNav = document.getElementById('mobileNav');
+        const menuOverlay = document.getElementById('menuOverlay');
+        const body = document.body;
+
         hamburger.addEventListener('click', () => {
-            mobileNav.classList.toggle('open');
+            hamburger.classList.toggle('active');
+            menuOverlay.classList.toggle('active');
+            body.classList.toggle('menu-open');
         });
 
-        // Scroll shrink header
-        window.addEventListener('scroll', function() {
-            const header = document.querySelector('header');
-            const logo = document.querySelector('.logo img');
-            if(window.scrollY > 50) {
-                header.style.padding = '5px 40px';
-                logo.style.height = '30px';
-            } else {
-                header.style.padding = '10px 40px';
-                logo.style.height = '40px';
+        // Page Navigation
+        const menuLinks = document.querySelectorAll('.menu-links a');
+        const pageSections = document.querySelectorAll('.page-section');
+
+        menuLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const targetPage = link.getAttribute('data-page');
+                
+                // Hide all pages
+                pageSections.forEach(section => {
+                    section.classList.remove('active');
+                });
+                
+                // Show target page
+                document.getElementById(targetPage).classList.add('active');
+                
+                // Close menu
+                hamburger.classList.remove('active');
+                menuOverlay.classList.remove('active');
+                body.classList.remove('menu-open');
+                
+                // Scroll to top
+                window.scrollTo(0, 0);
+            });
+        });
+
+        // Calendly Popup Integration
+        function openCalendly() {
+            Calendly.initPopupWidget({
+                url: 'https://calendly.com/onstrahq/setup-and-growth-consultation-1'
+            });
+            return false;
+        }
+
+        // Add click handlers to all CTA buttons
+        const ctaButtons = document.querySelectorAll('.cta-button, .menu-cta');
+        ctaButtons.forEach(button => {
+            button.addEventListener('click', openCalendly);
+        });
+
+        // Close menu when clicking outside
+        menuOverlay.addEventListener('click', (e) => {
+            if (e.target === menuOverlay) {
+                hamburger.classList.remove('active');
+                menuOverlay.classList.remove('active');
+                body.classList.remove('menu-open');
             }
         });
     </script>
