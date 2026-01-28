@@ -19,13 +19,10 @@
 
         :root {
             --black: #000000;
-            --dark: #0a0a0a;
-            --dark-grey: #1a1a1a;
-            --medium-grey: #2a2a2a;
-            --light-grey: #9ca3af;
             --white: #ffffff;
-            --accent: #4a4a4a;
-            --accent-hover: #5a5a5a;
+            --dark-bg: #0a0a0a;
+            --card-bg: #0f0f0f;
+            --border: rgba(255, 255, 255, 0.1);
         }
 
         body {
@@ -53,7 +50,7 @@
             z-index: 1000;
             background: rgba(0, 0, 0, 0.95);
             backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            border-bottom: 1px solid var(--border);
         }
 
         nav {
@@ -166,8 +163,9 @@
         }
 
         .menu-links a:hover {
-            color: var(--accent-hover);
+            color: var(--white);
             transform: translateX(10px);
+            opacity: 0.8;
         }
 
         .menu-cta {
@@ -185,9 +183,10 @@
         }
 
         .menu-cta:hover {
-            background: var(--accent-hover);
-            color: var(--white);
+            background: rgba(255, 255, 255, 0.9);
+            color: var(--black);
             transform: translateY(-2px);
+            box-shadow: 0 10px 40px rgba(255, 255, 255, 0.3);
         }
 
         /* Page Sections */
@@ -234,7 +233,7 @@
             font-size: 13px;
             font-weight: 700;
             letter-spacing: 2px;
-            color: var(--light-grey);
+            color: rgba(255, 255, 255, 0.6);
             margin-bottom: 24px;
         }
 
@@ -249,7 +248,7 @@
 
         .hero p {
             font-size: 20px;
-            color: var(--light-grey);
+            color: rgba(255, 255, 255, 0.8);
             max-width: 720px;
             margin: 0 auto 40px;
             font-weight: 400;
@@ -287,9 +286,9 @@
 
         /* Scrolling Banner */
         .scrolling-banner {
-            background: var(--dark-grey);
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            background: var(--dark-bg);
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
             padding: 24px 0;
             overflow: hidden;
             white-space: nowrap;
@@ -311,7 +310,7 @@
 
         .banner-item::before {
             content: '● ';
-            color: var(--accent);
+            color: var(--white);
             margin-right: 12px;
         }
 
@@ -337,7 +336,7 @@
             font-size: 13px;
             font-weight: 700;
             letter-spacing: 2px;
-            color: var(--light-grey);
+            color: rgba(255, 255, 255, 0.6);
             margin-bottom: 16px;
         }
 
@@ -358,15 +357,15 @@
         }
 
         .service-card {
-            background: var(--dark-grey);
+            background: var(--card-bg);
             padding: 48px;
             border-radius: 8px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--border);
             transition: all 0.3s;
         }
 
         .service-card:hover {
-            border-color: rgba(255, 255, 255, 0.3);
+            border-color: var(--white);
             transform: translateY(-4px);
         }
 
@@ -412,13 +411,13 @@
 
         .service-card h4 {
             font-size: 15px;
-            color: var(--light-grey);
+            color: rgba(255, 255, 255, 0.7);
             margin-bottom: 20px;
             font-weight: 600;
         }
 
         .service-card p {
-            color: var(--light-grey);
+            color: rgba(255, 255, 255, 0.8);
             line-height: 1.7;
             font-size: 16px;
         }
@@ -426,7 +425,7 @@
         /* Why Section */
         .why-section {
             padding: 120px 40px;
-            background: var(--dark);
+            background: var(--dark-bg);
         }
 
         .why-grid {
@@ -451,7 +450,7 @@
         .why-icon svg {
             width: 100%;
             height: 100%;
-            stroke: var(--accent);
+            stroke: var(--white);
         }
 
         .why-item h3 {
@@ -463,7 +462,7 @@
         }
 
         .why-item p {
-            color: var(--light-grey);
+            color: rgba(255, 255, 255, 0.8);
             line-height: 1.6;
             font-size: 15px;
         }
@@ -477,18 +476,18 @@
         .comparison-table {
             max-width: 1000px;
             margin: 60px auto 0;
-            background: var(--dark-grey);
+            background: var(--card-bg);
             border-radius: 8px;
             overflow: hidden;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--border);
         }
 
         .comparison-header {
             display: grid;
             grid-template-columns: 1fr 1fr 1fr;
-            background: var(--medium-grey);
+            background: var(--black);
             padding: 24px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            border-bottom: 1px solid var(--border);
             font-weight: 700;
             font-size: 14px;
             text-transform: uppercase;
@@ -496,14 +495,14 @@
         }
 
         .comparison-header div:nth-child(3) {
-            color: var(--accent);
+            color: var(--white);
         }
 
         .comparison-row {
             display: grid;
             grid-template-columns: 1fr 1fr 1fr;
             padding: 20px 24px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            border-bottom: 1px solid var(--border);
             align-items: center;
             font-size: 15px;
         }
@@ -528,7 +527,7 @@
         /* CTA Section */
         .cta-section {
             padding: 140px 40px;
-            background: var(--dark-grey);
+            background: var(--dark-bg);
             text-align: center;
             position: relative;
             overflow: hidden;
@@ -555,7 +554,7 @@
 
         .cta-section p {
             font-size: 20px;
-            color: var(--light-grey);
+            color: rgba(255, 255, 255, 0.8);
             margin-bottom: 48px;
             max-width: 700px;
             margin-left: auto;
@@ -579,14 +578,14 @@
 
         .about-hero p {
             font-size: 22px;
-            color: var(--light-grey);
+            color: rgba(255, 255, 255, 0.8);
             max-width: 800px;
             margin: 0 auto;
         }
 
         .about-content {
             padding: 100px 40px;
-            background: var(--dark);
+            background: var(--dark-bg);
         }
 
         .about-grid {
@@ -601,12 +600,12 @@
             font-weight: 900;
             text-transform: uppercase;
             margin-bottom: 20px;
-            color: var(--accent);
+            color: var(--white);
         }
 
         .about-block p {
             font-size: 18px;
-            color: var(--light-grey);
+            color: rgba(255, 255, 255, 0.8);
             line-height: 1.8;
             margin-bottom: 16px;
         }
@@ -628,14 +627,14 @@
 
         .testimonials-hero p {
             font-size: 22px;
-            color: var(--light-grey);
+            color: rgba(255, 255, 255, 0.8);
             max-width: 800px;
             margin: 0 auto;
         }
 
         .testimonials-grid {
             padding: 100px 40px;
-            background: var(--dark);
+            background: var(--dark-bg);
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
             gap: 40px;
@@ -644,20 +643,20 @@
         }
 
         .testimonial-card {
-            background: var(--dark-grey);
+            background: var(--card-bg);
             padding: 48px;
             border-radius: 8px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--border);
             transition: all 0.3s;
         }
 
         .testimonial-card:hover {
-            border-color: var(--accent);
+            border-color: var(--white);
             transform: translateY(-4px);
         }
 
         .testimonial-stars {
-            color: var(--accent);
+            color: var(--white);
             font-size: 24px;
             margin-bottom: 20px;
         }
@@ -665,7 +664,7 @@
         .testimonial-text {
             font-size: 18px;
             line-height: 1.7;
-            color: var(--light-grey);
+            color: rgba(255, 255, 255, 0.8);
             margin-bottom: 24px;
         }
 
@@ -673,14 +672,15 @@
             display: flex;
             align-items: center;
             gap: 16px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            border-top: 1px solid var(--border);
             padding-top: 24px;
         }
 
         .author-avatar {
             width: 50px;
             height: 50px;
-            background: var(--accent);
+            background: var(--white);
+            color: var(--black);
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -695,7 +695,7 @@
         }
 
         .author-info p {
-            color: var(--light-grey);
+            color: rgba(255, 255, 255, 0.6);
             font-size: 14px;
         }
 
@@ -716,14 +716,14 @@
 
         .contact-hero p {
             font-size: 22px;
-            color: var(--light-grey);
+            color: rgba(255, 255, 255, 0.8);
             max-width: 800px;
             margin: 0 auto 40px;
         }
 
         .contact-content {
             padding: 100px 40px;
-            background: var(--dark);
+            background: var(--dark-bg);
             text-align: center;
         }
 
@@ -744,7 +744,7 @@
         }
 
         .contact-item a {
-            color: var(--accent-hover);
+            color: rgba(255, 255, 255, 0.8);
             text-decoration: none;
             font-size: 18px;
             transition: all 0.3s;
@@ -758,7 +758,7 @@
         footer {
             background: var(--black);
             padding: 60px 40px 40px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            border-top: 1px solid var(--border);
         }
 
         .footer-content {
@@ -783,8 +783,8 @@
         .footer-bottom {
             margin-top: 40px;
             padding-top: 30px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            color: var(--light-grey);
+            border-top: 1px solid var(--border);
+            color: rgba(255, 255, 255, 0.6);
             font-size: 14px;
         }
 
@@ -1106,37 +1106,37 @@
             <div class="testimonial-card">
                 <div class="testimonial-stars">01</div>
                 <h3 style="font-size: 24px; font-weight: 700; text-transform: uppercase; margin-bottom: 16px;">Discovery Call</h3>
-                <p class="testimonial-text">We start with a deep-dive conversation about your business. What's working? What's broken? Where are leads falling through the cracks? We'll identify the biggest pain points and opportunities for automation.</p>
+                <p class="testimonial-text">We start with a deep dive conversation about your business. What's working? What's broken? Where are leads falling through the cracks? We'll identify the biggest pain points and opportunities for automation.</p>
             </div>
 
             <div class="testimonial-card">
                 <div class="testimonial-stars">02</div>
                 <h3 style="font-size: 24px; font-weight: 700; text-transform: uppercase; margin-bottom: 16px;">Custom Proposal</h3>
-                <p class="testimonial-text">After our call, we'll analyze your needs and send you a tailored solution. No cookie-cutter templates—just what actually fits your business. We'll outline the systems, timeline, and investment required.</p>
+                <p class="testimonial-text">After our call, we'll analyze your needs and send you a tailored solution. No cookie cutter templates, just what actually fits your business. We'll outline the systems, timeline, and investment required.</p>
             </div>
 
             <div class="testimonial-card">
                 <div class="testimonial-stars">03</div>
-                <h3 style="font-size: 24px; font-weight: 700; text-transform: uppercase; margin-bottom: 16px;">Build & Deploy</h3>
-                <p class="testimonial-text">We primarily use GoHighLevel (GHL) as our automation platform—it's powerful, flexible, and built for service businesses. We'll set up lead capture, automated follow-ups, text-back sequences, and voice AI if needed.</p>
+                <h3 style="font-size: 24px; font-weight: 700; text-transform: uppercase; margin-bottom: 16px;">Setup & Implementation</h3>
+                <p class="testimonial-text">We configure and connect the automation tools your business needs. Lead capture from your website, automated follow ups via text and email, appointment booking systems, and voice AI if it makes sense for you.</p>
             </div>
 
             <div class="testimonial-card">
                 <div class="testimonial-stars">04</div>
-                <h3 style="font-size: 24px; font-weight: 700; text-transform: uppercase; margin-bottom: 16px;">Fine-Tuning</h3>
+                <h3 style="font-size: 24px; font-weight: 700; text-transform: uppercase; margin-bottom: 16px;">Fine Tuning</h3>
                 <p class="testimonial-text">We don't just build and disappear. We monitor performance, optimize sequences, and make adjustments based on real results. Your systems get better over time, not stale.</p>
             </div>
 
             <div class="testimonial-card">
                 <div class="testimonial-stars">05</div>
                 <h3 style="font-size: 24px; font-weight: 700; text-transform: uppercase; margin-bottom: 16px;">Ongoing Support</h3>
-                <p class="testimonial-text">Whether it's a retainer or one-time setup, we're responsive and available. Questions? Changes? New ideas? We move fast and keep your systems running smoothly.</p>
+                <p class="testimonial-text">Whether it's a retainer or one time setup, we're responsive and available. Questions? Changes? New ideas? We move fast and keep your systems running smoothly.</p>
             </div>
 
             <div class="testimonial-card">
                 <div class="testimonial-stars">06</div>
-                <h3 style="font-size: 24px; font-weight: 700; text-transform: uppercase; margin-bottom: 16px;">Your Tools, Our Expertise</h3>
-                <p class="testimonial-text">While we prefer GHL for its capabilities, we're flexible. If your business needs something more specific, we'll find the right tool. The goal is always what works best for you—not what's easiest for us.</p>
+                <h3 style="font-size: 24px; font-weight: 700; text-transform: uppercase; margin-bottom: 16px;">Tailored Solutions</h3>
+                <p class="testimonial-text">We select and configure the right automation tools for your specific situation. Every business operates differently, so we customize everything to match how you actually work, not force you into a template.</p>
             </div>
         </section>
 
