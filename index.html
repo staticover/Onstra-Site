@@ -20,15 +20,15 @@
         :root {
             --black: #000000;
             --white: #ffffff;
-            --dark-bg: #0a0a0a;
-            --card-bg: #0f0f0f;
-            --border: rgba(255, 255, 255, 0.1);
+            --light-bg: #fafafa;
+            --card-bg: #000000;
+            --border: rgba(0, 0, 0, 0.1);
         }
 
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: var(--black);
-            color: var(--white);
+            background: var(--white);
+            color: var(--black);
             line-height: 1.6;
             overflow-x: hidden;
         }
@@ -48,7 +48,7 @@
             position: sticky;
             top: 0;
             z-index: 1000;
-            background: rgba(0, 0, 0, 0.95);
+            background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(10px);
             border-bottom: 1px solid var(--border);
         }
@@ -64,12 +64,12 @@
             height: 40px;
             z-index: 1001;
             position: relative;
+            cursor: pointer;
         }
 
         .logo img {
             height: 100%;
             width: auto;
-            filter: invert(1);
         }
 
         /* Hamburger Menu */
@@ -93,7 +93,7 @@
             display: block;
             height: 2px;
             width: 100%;
-            background: var(--white);
+            background: var(--black);
             transition: all 0.3s;
         }
 
@@ -116,7 +116,7 @@
             left: 0;
             width: 100%;
             height: 100vh;
-            background: rgba(0, 0, 0, 0.98);
+            background: rgba(255, 255, 255, 0.98);
             backdrop-filter: blur(10px);
             z-index: 999;
             display: flex;
@@ -152,7 +152,7 @@
         }
 
         .menu-links a {
-            color: var(--white);
+            color: var(--black);
             text-decoration: none;
             font-size: 48px;
             font-weight: 900;
@@ -163,14 +163,14 @@
         }
 
         .menu-links a:hover {
-            color: var(--white);
+            color: var(--black);
             transform: translateX(10px);
-            opacity: 0.8;
+            opacity: 0.6;
         }
 
         .menu-cta {
-            background: var(--white);
-            color: var(--black);
+            background: var(--black);
+            color: var(--white);
             padding: 18px 36px;
             border-radius: 4px;
             text-decoration: none;
@@ -183,10 +183,10 @@
         }
 
         .menu-cta:hover {
-            background: rgba(255, 255, 255, 0.9);
-            color: var(--black);
+            background: var(--black);
+            color: var(--white);
             transform: translateY(-2px);
-            box-shadow: 0 10px 40px rgba(255, 255, 255, 0.3);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
         }
 
         /* Page Sections */
@@ -204,7 +204,7 @@
             position: relative;
             padding: 140px 40px 100px;
             text-align: center;
-            background: var(--black);
+            background: var(--white);
             overflow: hidden;
         }
 
@@ -216,7 +216,7 @@
             transform: translate(-50%, -50%);
             font-size: 280px;
             font-weight: 900;
-            color: rgba(255, 255, 255, 0.02);
+            color: rgba(0, 0, 0, 0.02);
             letter-spacing: -0.05em;
             z-index: 0;
             white-space: nowrap;
@@ -233,7 +233,7 @@
             font-size: 13px;
             font-weight: 700;
             letter-spacing: 2px;
-            color: rgba(255, 255, 255, 0.6);
+            color: rgba(0, 0, 0, 0.6);
             margin-bottom: 24px;
         }
 
@@ -248,7 +248,7 @@
 
         .hero p {
             font-size: 20px;
-            color: rgba(255, 255, 255, 0.8);
+            color: rgba(0, 0, 0, 0.8);
             max-width: 720px;
             margin: 0 auto 40px;
             font-weight: 400;
@@ -259,8 +259,8 @@
             display: inline-flex;
             align-items: center;
             gap: 12px;
-            background: var(--white);
-            color: var(--black);
+            background: var(--black);
+            color: var(--white);
             padding: 18px 36px;
             border-radius: 4px;
             text-decoration: none;
@@ -274,9 +274,9 @@
         }
 
         .hero-cta:hover, .cta-button:hover {
-            background: rgba(255, 255, 255, 0.95);
+            background: var(--black);
             transform: translateY(-2px);
-            box-shadow: 0 10px 40px rgba(255, 255, 255, 0.2);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
         }
 
         .hero-cta::after {
@@ -286,7 +286,7 @@
 
         /* Scrolling Banner */
         .scrolling-banner {
-            background: var(--dark-bg);
+            background: var(--light-bg);
             border-top: 1px solid var(--border);
             border-bottom: 1px solid var(--border);
             padding: 24px 0;
@@ -310,7 +310,7 @@
 
         .banner-item::before {
             content: '● ';
-            color: var(--white);
+            color: var(--black);
             margin-right: 12px;
         }
 
@@ -322,7 +322,7 @@
         /* Services Section */
         .services-section {
             padding: 120px 40px;
-            background: var(--black);
+            background: var(--white);
         }
 
         .section-header {
@@ -336,7 +336,7 @@
             font-size: 13px;
             font-weight: 700;
             letter-spacing: 2px;
-            color: rgba(255, 255, 255, 0.6);
+            color: rgba(0, 0, 0, 0.6);
             margin-bottom: 16px;
         }
 
@@ -360,19 +360,20 @@
             background: var(--card-bg);
             padding: 48px;
             border-radius: 8px;
-            border: 1px solid var(--border);
+            border: 1px solid var(--black);
             transition: all 0.3s;
         }
 
         .service-card:hover {
-            border-color: var(--white);
+            border-color: var(--black);
             transform: translateY(-4px);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
         }
 
         .service-icon {
             width: 56px;
             height: 56px;
-            background: var(--white);
+            background: var(--black);
             border-radius: 0;
             display: flex;
             align-items: center;
@@ -386,7 +387,7 @@
             content: '';
             width: 24px;
             height: 24px;
-            background: var(--black);
+            background: var(--white);
         }
 
         .service-card:nth-child(1) .service-icon::before {
@@ -407,6 +408,7 @@
             margin-bottom: 12px;
             text-transform: uppercase;
             letter-spacing: -0.01em;
+            color: var(--white);
         }
 
         .service-card h4 {
@@ -425,7 +427,7 @@
         /* Why Section */
         .why-section {
             padding: 120px 40px;
-            background: var(--dark-bg);
+            background: var(--light-bg);
         }
 
         .why-grid {
@@ -450,7 +452,7 @@
         .why-icon svg {
             width: 100%;
             height: 100%;
-            stroke: var(--white);
+            stroke: var(--black);
         }
 
         .why-item h3 {
@@ -462,7 +464,7 @@
         }
 
         .why-item p {
-            color: rgba(255, 255, 255, 0.8);
+            color: rgba(0, 0, 0, 0.8);
             line-height: 1.6;
             font-size: 15px;
         }
@@ -470,16 +472,16 @@
         /* Comparison Table */
         .comparison-section {
             padding: 120px 40px;
-            background: var(--black);
+            background: var(--white);
         }
 
         .comparison-table {
             max-width: 1000px;
             margin: 60px auto 0;
-            background: var(--card-bg);
+            background: var(--black);
             border-radius: 8px;
             overflow: hidden;
-            border: 1px solid var(--border);
+            border: 1px solid var(--black);
         }
 
         .comparison-header {
@@ -487,11 +489,12 @@
             grid-template-columns: 1fr 1fr 1fr;
             background: var(--black);
             padding: 24px;
-            border-bottom: 1px solid var(--border);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
             font-weight: 700;
             font-size: 14px;
             text-transform: uppercase;
             letter-spacing: 1px;
+            color: var(--white);
         }
 
         .comparison-header div:nth-child(3) {
@@ -502,9 +505,10 @@
             display: grid;
             grid-template-columns: 1fr 1fr 1fr;
             padding: 20px 24px;
-            border-bottom: 1px solid var(--border);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
             align-items: center;
             font-size: 15px;
+            color: var(--white);
         }
 
         .comparison-row:last-child {
@@ -527,7 +531,7 @@
         /* CTA Section */
         .cta-section {
             padding: 140px 40px;
-            background: var(--dark-bg);
+            background: var(--light-bg);
             text-align: center;
             position: relative;
             overflow: hidden;
@@ -540,7 +544,7 @@
             left: 0;
             right: 0;
             height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            background: linear-gradient(90deg, transparent, rgba(0,0,0,0.2), transparent);
         }
 
         .cta-section h2 {
@@ -554,7 +558,7 @@
 
         .cta-section p {
             font-size: 20px;
-            color: rgba(255, 255, 255, 0.8);
+            color: rgba(0, 0, 0, 0.8);
             margin-bottom: 48px;
             max-width: 700px;
             margin-left: auto;
@@ -565,7 +569,7 @@
         .about-hero {
             padding: 180px 40px 80px;
             text-align: center;
-            background: var(--black);
+            background: var(--white);
         }
 
         .about-hero h1 {
@@ -578,14 +582,14 @@
 
         .about-hero p {
             font-size: 22px;
-            color: rgba(255, 255, 255, 0.8);
+            color: rgba(0, 0, 0, 0.8);
             max-width: 800px;
             margin: 0 auto;
         }
 
         .about-content {
             padding: 100px 40px;
-            background: var(--dark-bg);
+            background: var(--light-bg);
         }
 
         .about-grid {
@@ -600,12 +604,12 @@
             font-weight: 900;
             text-transform: uppercase;
             margin-bottom: 20px;
-            color: var(--white);
+            color: var(--black);
         }
 
         .about-block p {
             font-size: 18px;
-            color: rgba(255, 255, 255, 0.8);
+            color: rgba(0, 0, 0, 0.8);
             line-height: 1.8;
             margin-bottom: 16px;
         }
@@ -614,7 +618,7 @@
         .testimonials-hero {
             padding: 180px 40px 80px;
             text-align: center;
-            background: var(--black);
+            background: var(--white);
         }
 
         .testimonials-hero h1 {
@@ -627,14 +631,14 @@
 
         .testimonials-hero p {
             font-size: 22px;
-            color: rgba(255, 255, 255, 0.8);
+            color: rgba(0, 0, 0, 0.8);
             max-width: 800px;
             margin: 0 auto;
         }
 
         .testimonials-grid {
             padding: 100px 40px;
-            background: var(--dark-bg);
+            background: var(--light-bg);
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
             gap: 40px;
@@ -643,22 +647,27 @@
         }
 
         .testimonial-card {
-            background: var(--card-bg);
+            background: var(--black);
             padding: 48px;
             border-radius: 8px;
-            border: 1px solid var(--border);
+            border: 1px solid var(--black);
             transition: all 0.3s;
         }
 
         .testimonial-card:hover {
-            border-color: var(--white);
+            border-color: var(--black);
             transform: translateY(-4px);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
         }
 
         .testimonial-stars {
             color: var(--white);
             font-size: 24px;
             margin-bottom: 20px;
+        }
+
+        .testimonial-card h3 {
+            color: var(--white);
         }
 
         .testimonial-text {
@@ -672,7 +681,7 @@
             display: flex;
             align-items: center;
             gap: 16px;
-            border-top: 1px solid var(--border);
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
             padding-top: 24px;
         }
 
@@ -692,6 +701,7 @@
         .author-info h4 {
             font-weight: 700;
             margin-bottom: 4px;
+            color: var(--white);
         }
 
         .author-info p {
@@ -703,7 +713,7 @@
         .contact-hero {
             padding: 180px 40px 80px;
             text-align: center;
-            background: var(--black);
+            background: var(--white);
         }
 
         .contact-hero h1 {
@@ -716,14 +726,14 @@
 
         .contact-hero p {
             font-size: 22px;
-            color: rgba(255, 255, 255, 0.8);
+            color: rgba(0, 0, 0, 0.8);
             max-width: 800px;
             margin: 0 auto 40px;
         }
 
         .contact-content {
             padding: 100px 40px;
-            background: var(--dark-bg);
+            background: var(--light-bg);
             text-align: center;
         }
 
@@ -743,20 +753,24 @@
             margin-bottom: 12px;
         }
 
+        .contact-item p {
+            color: rgba(0, 0, 0, 0.7);
+        }
+
         .contact-item a {
-            color: rgba(255, 255, 255, 0.8);
+            color: rgba(0, 0, 0, 0.8);
             text-decoration: none;
             font-size: 18px;
             transition: all 0.3s;
         }
 
         .contact-item a:hover {
-            color: var(--white);
+            color: var(--black);
         }
 
         /* Footer */
         footer {
-            background: var(--black);
+            background: var(--white);
             padding: 60px 40px 40px;
             border-top: 1px solid var(--border);
         }
@@ -777,14 +791,13 @@
         .footer-logo img {
             height: 100%;
             width: auto;
-            filter: invert(1);
         }
 
         .footer-bottom {
             margin-top: 40px;
             padding-top: 30px;
             border-top: 1px solid var(--border);
-            color: rgba(255, 255, 255, 0.6);
+            color: rgba(0, 0, 0, 0.6);
             font-size: 14px;
         }
 
@@ -921,7 +934,7 @@
                     <div class="service-icon"></div>
                     <h3>Lead Capture & Routing</h3>
                     <h4>Connect everything in one place</h4>
-                    <p>All your inbound channels—calls, texts, forms, social—into one system that never misses an inquiry.</p>
+                    <p>All your inbound channels (calls, texts, forms, social) into one system that never misses an inquiry.</p>
                 </div>
                 <div class="service-card">
                     <div class="service-icon"></div>
@@ -952,7 +965,7 @@
                     </div>
                     <div>
                         <h3>Automation First</h3>
-                        <p>We automate what you already have—your leads, your follow-ups, your workflows. No upsells, no lead gen pitches.</p>
+                        <p>We automate what you already have: your leads, your follow ups, your workflows. No upsells, no lead gen pitches.</p>
                     </div>
                 </div>
                 <div class="why-item">
@@ -1071,7 +1084,7 @@
                 <div class="about-block">
                     <h2>Our Story</h2>
                     <p>Onstra was born from frustration. We watched talented service business owners waste hours on repetitive tasks, lose leads to disorganization, and burn out trying to scale operations that ran entirely from memory.</p>
-                    <p>We knew there had to be a better way. Not through generic advice or cookie-cutter solutions, but through real automation that actually works for how service businesses operate.</p>
+                    <p>We knew there had to be a better way. Not through generic advice or cookie cutter solutions, but through real automation that actually works for how service businesses operate.</p>
                 </div>
 
                 <div class="about-block">
@@ -1196,6 +1209,27 @@
             hamburger.classList.toggle('active');
             menuOverlay.classList.toggle('active');
             body.classList.toggle('menu-open');
+        });
+
+        // Logo Click - Navigate to Home
+        const logo = document.querySelector('.logo');
+        logo.addEventListener('click', () => {
+            // Hide all pages
+            const pageSections = document.querySelectorAll('.page-section');
+            pageSections.forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Show home page
+            document.getElementById('home').classList.add('active');
+            
+            // Close menu if open
+            hamburger.classList.remove('active');
+            menuOverlay.classList.remove('active');
+            body.classList.remove('menu-open');
+            
+            // Scroll to top
+            window.scrollTo(0, 0);
         });
 
         // Page Navigation
