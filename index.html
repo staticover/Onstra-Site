@@ -24,7 +24,8 @@
             --medium-grey: #2a2a2a;
             --light-grey: #9ca3af;
             --white: #ffffff;
-            --green: #22c55e;
+            --accent: #4a4a4a;
+            --accent-hover: #5a5a5a;
         }
 
         body {
@@ -165,7 +166,7 @@
         }
 
         .menu-links a:hover {
-            color: var(--green);
+            color: var(--accent-hover);
             transform: translateX(10px);
         }
 
@@ -184,7 +185,8 @@
         }
 
         .menu-cta:hover {
-            background: var(--green);
+            background: var(--accent-hover);
+            color: var(--white);
             transform: translateY(-2px);
         }
 
@@ -309,7 +311,7 @@
 
         .banner-item::before {
             content: '● ';
-            color: var(--green);
+            color: var(--accent);
             margin-right: 12px;
         }
 
@@ -449,7 +451,7 @@
         .why-icon svg {
             width: 100%;
             height: 100%;
-            stroke: var(--green);
+            stroke: var(--accent);
         }
 
         .why-item h3 {
@@ -494,7 +496,7 @@
         }
 
         .comparison-header div:nth-child(3) {
-            color: var(--green);
+            color: var(--accent);
         }
 
         .comparison-row {
@@ -516,7 +518,7 @@
         }
 
         .comparison-check.yes {
-            color: var(--green);
+            color: var(--white);
         }
 
         .comparison-check.no {
@@ -599,7 +601,7 @@
             font-weight: 900;
             text-transform: uppercase;
             margin-bottom: 20px;
-            color: var(--green);
+            color: var(--accent);
         }
 
         .about-block p {
@@ -650,12 +652,12 @@
         }
 
         .testimonial-card:hover {
-            border-color: var(--green);
+            border-color: var(--accent);
             transform: translateY(-4px);
         }
 
         .testimonial-stars {
-            color: var(--green);
+            color: var(--accent);
             font-size: 24px;
             margin-bottom: 20px;
         }
@@ -678,7 +680,7 @@
         .author-avatar {
             width: 50px;
             height: 50px;
-            background: var(--green);
+            background: var(--accent);
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -742,7 +744,7 @@
         }
 
         .contact-item a {
-            color: var(--green);
+            color: var(--accent-hover);
             text-decoration: none;
             font-size: 18px;
             transition: all 0.3s;
@@ -878,7 +880,7 @@
             <ul class="menu-links">
                 <li><a href="#" data-page="home">Home</a></li>
                 <li><a href="#" data-page="about">About Us</a></li>
-                <li><a href="#" data-page="testimonials">Testimonials</a></li>
+                <li><a href="#" data-page="testimonials">What to Expect</a></li>
                 <li><a href="#" data-page="contact">Get In Touch</a></li>
             </ul>
             <button class="menu-cta" id="menuCtaBtn">Schedule a Call</button>
@@ -1093,91 +1095,55 @@
         </section>
     </div>
 
-    <!-- Testimonials Page -->
+    <!-- What to Expect Page -->
     <div id="testimonials" class="page-section">
         <section class="testimonials-hero">
-            <h1>What Clients Say</h1>
-            <p>Real results from real service business owners who took control of their chaos.</p>
+            <h1>What to Expect</h1>
+            <p>Here's exactly how we'll transform your business operations from chaos to clarity.</p>
         </section>
 
         <section class="testimonials-grid">
             <div class="testimonial-card">
-                <div class="testimonial-stars">★★★★★</div>
-                <p class="testimonial-text">"We were losing 40% of our leads because we couldn't follow up fast enough. Onstra automated our entire intake process and now every lead gets an immediate response. Our close rate jumped 60% in the first month."</p>
-                <div class="testimonial-author">
-                    <div class="author-avatar">MR</div>
-                    <div class="author-info">
-                        <h4>Mike Rodriguez</h4>
-                        <p>Owner, Elite HVAC Services</p>
-                    </div>
-                </div>
+                <div class="testimonial-stars">01</div>
+                <h3 style="font-size: 24px; font-weight: 700; text-transform: uppercase; margin-bottom: 16px;">Discovery Call</h3>
+                <p class="testimonial-text">We start with a deep-dive conversation about your business. What's working? What's broken? Where are leads falling through the cracks? We'll identify the biggest pain points and opportunities for automation.</p>
             </div>
 
             <div class="testimonial-card">
-                <div class="testimonial-stars">★★★★★</div>
-                <p class="testimonial-text">"Before Onstra, I was manually texting and calling every lead. It was exhausting and inconsistent. Now everything runs automatically and I can actually focus on the jobs that matter. Game changer."</p>
-                <div class="testimonial-author">
-                    <div class="author-avatar">SJ</div>
-                    <div class="author-info">
-                        <h4>Sarah Johnson</h4>
-                        <p>Founder, Premier Plumbing Co.</p>
-                    </div>
-                </div>
+                <div class="testimonial-stars">02</div>
+                <h3 style="font-size: 24px; font-weight: 700; text-transform: uppercase; margin-bottom: 16px;">Custom Proposal</h3>
+                <p class="testimonial-text">After our call, we'll analyze your needs and send you a tailored solution. No cookie-cutter templates—just what actually fits your business. We'll outline the systems, timeline, and investment required.</p>
             </div>
 
             <div class="testimonial-card">
-                <div class="testimonial-stars">★★★★★</div>
-                <p class="testimonial-text">"The team at Onstra actually understands service businesses. They didn't try to sell us on lead gen or marketing fluff—they just fixed our broken systems and now everything works. Worth every penny."</p>
-                <div class="testimonial-author">
-                    <div class="author-avatar">DK</div>
-                    <div class="author-info">
-                        <h4>David Kim</h4>
-                        <p>CEO, ProClean Services</p>
-                    </div>
-                </div>
+                <div class="testimonial-stars">03</div>
+                <h3 style="font-size: 24px; font-weight: 700; text-transform: uppercase; margin-bottom: 16px;">Build & Deploy</h3>
+                <p class="testimonial-text">We primarily use GoHighLevel (GHL) as our automation platform—it's powerful, flexible, and built for service businesses. We'll set up lead capture, automated follow-ups, text-back sequences, and voice AI if needed.</p>
             </div>
 
             <div class="testimonial-card">
-                <div class="testimonial-stars">★★★★★</div>
-                <p class="testimonial-text">"We've worked with other agencies before and they all overpromised and underdelivered. Onstra is different—they move fast, communicate clearly, and their automation actually works. Finally found a partner who gets it."</p>
-                <div class="testimonial-author">
-                    <div class="author-avatar">JW</div>
-                    <div class="author-info">
-                        <h4>Jennifer Williams</h4>
-                        <p>Director, Apex Landscaping</p>
-                    </div>
-                </div>
+                <div class="testimonial-stars">04</div>
+                <h3 style="font-size: 24px; font-weight: 700; text-transform: uppercase; margin-bottom: 16px;">Fine-Tuning</h3>
+                <p class="testimonial-text">We don't just build and disappear. We monitor performance, optimize sequences, and make adjustments based on real results. Your systems get better over time, not stale.</p>
             </div>
 
             <div class="testimonial-card">
-                <div class="testimonial-stars">★★★★★</div>
-                <p class="testimonial-text">"Our booking rate went from 15% to 42% after implementing Onstra's automated follow-up sequences. The ROI paid for itself in the first two weeks. Absolutely blown away by the results."</p>
-                <div class="testimonial-author">
-                    <div class="author-avatar">TC</div>
-                    <div class="author-info">
-                        <h4>Tom Chen</h4>
-                        <p>Owner, Precision Electrical</p>
-                    </div>
-                </div>
+                <div class="testimonial-stars">05</div>
+                <h3 style="font-size: 24px; font-weight: 700; text-transform: uppercase; margin-bottom: 16px;">Ongoing Support</h3>
+                <p class="testimonial-text">Whether it's a retainer or one-time setup, we're responsive and available. Questions? Changes? New ideas? We move fast and keep your systems running smoothly.</p>
             </div>
 
             <div class="testimonial-card">
-                <div class="testimonial-stars">★★★★★</div>
-                <p class="testimonial-text">"I can't believe I waited this long to automate. Onstra set everything up in days, not weeks. Now my team can focus on service instead of chasing leads. Best business decision I've made this year."</p>
-                <div class="testimonial-author">
-                    <div class="author-avatar">LM</div>
-                    <div class="author-info">
-                        <h4>Lisa Martinez</h4>
-                        <p>President, Crown Roofing</p>
-                    </div>
-                </div>
+                <div class="testimonial-stars">06</div>
+                <h3 style="font-size: 24px; font-weight: 700; text-transform: uppercase; margin-bottom: 16px;">Your Tools, Our Expertise</h3>
+                <p class="testimonial-text">While we prefer GHL for its capabilities, we're flexible. If your business needs something more specific, we'll find the right tool. The goal is always what works best for you—not what's easiest for us.</p>
             </div>
         </section>
 
         <section class="cta-section">
-            <h2>Ready for Results<br>Like These?</h2>
-            <p>Join the service businesses that chose automation over chaos.</p>
-            <button class="hero-cta cta-button">Schedule a Call</button>
+            <h2>Ready to See How<br>This Works?</h2>
+            <p>Book a discovery call and let's map out your automation journey.</p>
+            <button class="hero-cta cta-button">Schedule Your Discovery Call</button>
         </section>
     </div>
 
@@ -1193,7 +1159,7 @@
             <div class="contact-info">
                 <div class="contact-item">
                     <h3>Email Us</h3>
-                    <a href="mailto:hello@onstra.com">hello@onstra.com</a>
+                    <a href="mailto:Onstrahq@gmail.com">Onstrahq@gmail.com</a>
                 </div>
                 <div class="contact-item">
                     <h3>Quick Response</h3>
