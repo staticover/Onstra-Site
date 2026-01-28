@@ -9,288 +9,103 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        /* ========== Reset ========== */
+        * { margin:0; padding:0; box-sizing:border-box; }
         :root {
-            --black: #000000;
-            --dark: #0a0a0a;
-            --dark-grey: #1a1a1a;
-            --medium-grey: #2a2a2a;
-            --light-grey: #9ca3af;
-            --white: #ffffff;
-            --green: #22c55e;
+            --black:#000; --dark:#0a0a0a; --dark-grey:#1a1a1a; --medium-grey:#2a2a2a;
+            --light-grey:#9ca3af; --white:#fff; --green:#22c55e;
         }
-
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: var(--black);
-            color: var(--white);
-            line-height: 1.6;
-            overflow-x: hidden;
+            font-family:'Inter', sans-serif;
+            background:var(--black); color:var(--white); line-height:1.6; overflow-x:hidden;
         }
+        .container { max-width:1400px; margin:0 auto; padding:0 40px; }
 
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 0 40px;
+        /* ========== Header/Nav ========== */
+        header { position:sticky; top:0; z-index:1000; background:rgba(0,0,0,0.95); backdrop-filter:blur(10px); border-bottom:1px solid rgba(255,255,255,0.1); }
+        nav { display:flex; justify-content:space-between; align-items:center; padding:20px 40px; }
+        .logo img { height:40px; filter:invert(1); }
+        .nav-links { display:flex; gap:20px; align-items:center; }
+        .nav-links a {
+            color:var(--white); text-decoration:none; font-weight:600; text-transform:uppercase;
+            letter-spacing:0.5px; padding:10px 16px; transition:all 0.2s;
         }
-
-        /* Header */
-        header {
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            background: rgba(0, 0, 0, 0.95);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px 40px;
-        }
-
-        .logo {
-            height: 40px;
-        }
-
-        .logo img {
-            height: 100%;
-            width: auto;
-            filter: invert(1);
-        }
-
-        .nav-links {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-        }
-
-        .nav-links a.nav-link {
-            color: white;
-            text-decoration: none;
-            font-weight: 500;
-            transition: color 0.2s;
-        }
-
-        .nav-links a.nav-link:hover {
-            color: var(--green);
-        }
-
+        .nav-links a:hover { color:var(--green); }
         .nav-cta {
-            background: var(--white);
-            color: var(--black);
-            padding: 12px 28px;
-            border-radius: 4px;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 14px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            transition: all 0.2s;
+            background:var(--white); color:var(--black); padding:12px 28px; border-radius:4px;
+            text-decoration:none; font-weight:600; text-transform:uppercase; letter-spacing:0.5px; transition:all 0.2s;
         }
+        .nav-cta:hover { background:rgba(255,255,255,0.9); transform:translateY(-1px); }
 
-        .nav-cta:hover {
-            background: rgba(255, 255, 255, 0.9);
-            transform: translateY(-1px);
-        }
+        /* ========== Hero ========== */
+        .hero { position:relative; padding:140px 40px 100px; text-align:center; background:var(--black); overflow:hidden; }
+        .hero::before { content:'ONSTRA'; position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); font-size:280px; font-weight:900; color:rgba(255,255,255,0.02); letter-spacing:-0.05em; z-index:0; white-space:nowrap; }
+        .hero-content { position:relative; z-index:1; }
+        .hero-label { display:inline-block; text-transform:uppercase; font-size:13px; font-weight:700; letter-spacing:2px; color:var(--light-grey); margin-bottom:24px; }
+        .hero h1 { font-size:80px; font-weight:900; line-height:0.95; letter-spacing:-0.04em; margin-bottom:28px; text-transform:uppercase; }
+        .hero p { font-size:20px; color:var(--light-grey); max-width:720px; margin:0 auto 40px; font-weight:400; line-height:1.6; }
+        .hero-cta { display:inline-flex; align-items:center; gap:12px; background:var(--white); color:var(--black); padding:18px 36px; border-radius:4px; text-decoration:none; font-weight:700; font-size:15px; text-transform:uppercase; letter-spacing:0.5px; transition:all 0.3s; }
+        .hero-cta:hover { background:rgba(255,255,255,0.95); transform:translateY(-2px); box-shadow:0 10px 40px rgba(255,255,255,0.2); }
+        .hero-cta::after { content:'→'; font-size:20px; }
 
-        /* Hero Section */
-        .hero {
-            position: relative;
-            padding: 140px 40px 100px;
-            text-align: center;
-            background: var(--black);
-            overflow: hidden;
-        }
+        /* ========== Scrolling Banner ========== */
+        .scrolling-banner { background:var(--dark-grey); border-top:1px solid rgba(255,255,255,0.1); border-bottom:1px solid rgba(255,255,255,0.1); padding:24px 0; overflow:hidden; white-space:nowrap; }
+        .banner-track { display:inline-block; animation:scroll 30s linear infinite; }
+        .banner-item { display:inline-block; padding:0 60px; font-size:16px; font-weight:700; text-transform:uppercase; letter-spacing:1px; }
+        .banner-item::before { content:'● '; color:var(--green); margin-right:12px; }
+        @keyframes scroll { 0% { transform:translateX(0); } 100% { transform:translateX(-50%); } }
 
-        .hero::before {
-            content: 'ONSTRA';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 280px;
-            font-weight: 900;
-            color: rgba(255, 255, 255, 0.02);
-            letter-spacing: -0.05em;
-            z-index: 0;
-            white-space: nowrap;
-        }
+        /* ========== About Us Section ========== */
+        .about-section { padding:120px 40px; background:var(--dark); text-align:center; }
+        .about-section h2 { font-size:56px; font-weight:900; line-height:1.1; letter-spacing:-0.03em; text-transform:uppercase; margin-bottom:24px; }
+        .about-section p { font-size:18px; color:var(--light-grey); max-width:800px; margin:0 auto; line-height:1.7; }
 
-        .hero-content {
-            position: relative;
-            z-index: 1;
-        }
-
-        .hero-label {
-            display: inline-block;
-            text-transform: uppercase;
-            font-size: 13px;
-            font-weight: 700;
-            letter-spacing: 2px;
-            color: var(--light-grey);
-            margin-bottom: 24px;
-        }
-
-        .hero h1 {
-            font-size: 80px;
-            font-weight: 900;
-            line-height: 0.95;
-            letter-spacing: -0.04em;
-            margin-bottom: 28px;
-            text-transform: uppercase;
-        }
-
-        .hero p {
-            font-size: 20px;
-            color: var(--light-grey);
-            max-width: 720px;
-            margin: 0 auto 40px;
-            font-weight: 400;
-            line-height: 1.6;
-        }
-
-        .hero-cta {
-            display: inline-flex;
-            align-items: center;
-            gap: 12px;
-            background: var(--white);
-            color: var(--black);
-            padding: 18px 36px;
-            border-radius: 4px;
-            text-decoration: none;
-            font-weight: 700;
-            font-size: 15px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            transition: all 0.3s;
-        }
-
-        .hero-cta:hover {
-            background: rgba(255, 255, 255, 0.95);
-            transform: translateY(-2px);
-            box-shadow: 0 10px 40px rgba(255, 255, 255, 0.2);
-        }
-
-        .hero-cta::after {
-            content: '→';
-            font-size: 20px;
-        }
-
-        .hero-trust {
-            margin-top: 60px;
-            font-size: 14px;
-            color: var(--light-grey);
-            font-weight: 500;
-        }
-
-        /* Scrolling Banner */
-        .scrolling-banner {
-            background: var(--dark-grey);
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 24px 0;
-            overflow: hidden;
-            white-space: nowrap;
-        }
-
-        .banner-track {
-            display: inline-block;
-            animation: scroll 30s linear infinite;
-        }
-
-        .banner-item {
-            display: inline-block;
-            padding: 0 60px;
-            font-size: 16px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .banner-item::before {
-            content: '● ';
-            color: var(--green);
-            margin-right: 12px;
-        }
-
-        @keyframes scroll {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); }
-        }
-
-        /* About Section */
-        #about {
-            padding: 120px 40px;
-            background: var(--dark);
-            max-width: 1200px;
-            margin: 0 auto;
-            text-align: center;
-        }
-
-        #about h2 {
-            font-size: 56px;
-            font-weight: 900;
-            text-transform: uppercase;
-            margin-bottom: 24px;
-        }
-
-        #about p {
-            font-size: 18px;
-            color: var(--light-grey);
-            line-height: 1.7;
-            margin-bottom: 20px;
-        }
-
-        /* Other sections omitted for brevity (you can keep your previous code for hero, services, etc.) */
+        /* ========== Services Section ========== */
+        .services-section { padding:120px 40px; background:var(--black); }
+        .section-header { text-align:center; margin-bottom:80px; }
+        .section-label { display:inline-block; text-transform:uppercase; font-size:13px; font-weight:700; letter-spacing:2px; color:var(--light-grey); margin-bottom:16px; }
+        .section-title { font-size:56px; font-weight:900; line-height:1.1; letter-spacing:-0.03em; text-transform:uppercase; }
+        .services-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(350px,1fr)); gap:32px; max-width:1200px; margin:0 auto; }
+        .service-card { background:var(--dark-grey); padding:48px; border-radius:8px; border:1px solid rgba(255,255,255,0.1); transition:all 0.3s; }
+        .service-card:hover { border-color:rgba(255,255,255,0.3); transform:translateY(-4px); }
+        .service-icon { width:56px; height:56px; background:var(--white); border-radius:0; display:flex; align-items:center; justify-content:center; font-size:28px; margin-bottom:24px; position:relative; }
+        .service-card h3 { font-size:24px; font-weight:700; margin-bottom:12px; text-transform:uppercase; letter-spacing:-0.01em; }
+        .service-card h4 { font-size:15px; color:var(--light-grey); margin-bottom:20px; font-weight:600; }
+        .service-card p { color:var(--light-grey); line-height:1.7; font-size:16px; }
+        .service-link { display:inline-flex; align-items:center; gap:8px; margin-top:20px; color:var(--white); text-decoration:none; font-weight:600; font-size:14px; text-transform:uppercase; letter-spacing:0.5px; transition:gap 0.2s; }
+        .service-link:hover { gap:12px; }
+        .service-link::after { content:'→'; }
 
         /* Responsive */
-        @media (max-width: 1024px) {
-            nav { padding: 20px; }
-        }
-        @media (max-width: 768px) {
-            nav { flex-direction: column; gap: 12px; }
-            .hero h1 { font-size: 48px; }
-        }
+        @media(max-width:1024px) { .services-grid { grid-template-columns:1fr; } }
+        @media(max-width:768px) { nav { padding:20px; } .container { padding:0 20px; } .hero { padding:100px 20px 80px; } .hero::before { font-size:120px; } .hero h1 { font-size:48px; } }
     </style>
 </head>
 <body>
+    <!-- ====== Header/Nav ====== -->
     <header>
         <nav class="container">
             <div class="logo">
                 <img src="logo.png" alt="Onstra">
             </div>
             <div class="nav-links">
-                <a href="#about" class="nav-link">About Us</a>
-                <a href="#contact" class="nav-link">Get in Touch</a>
-                <a href="https://calendly.com/onstrahq/setup-and-growth-consultation-1" target="_blank" class="nav-link">Schedule</a>
-                <a href="#contact" class="nav-cta">Get Started</a>
+                <a href="#about">About Us</a>
+                <a href="https://calendly.com/onstrahq/setup-and-growth-consultation-1" target="_blank" class="nav-cta">Get in Touch</a>
             </div>
         </nav>
     </header>
 
+    <!-- ====== Hero ====== -->
     <section class="hero">
         <div class="hero-content">
             <span class="hero-label">Automation for Service Businesses</span>
             <h1>Stop Running<br>Your Business<br>From Memory</h1>
             <p>We automate the chaos so you can focus on what matters. No more missed leads, forgotten follow-ups, or manual busywork holding you back.</p>
-            <a href="#contact" class="hero-cta">Get Control Back</a>
+            <a href="https://calendly.com/onstrahq/setup-and-growth-consultation-1" target="_blank" class="hero-cta">Get Control Back</a>
         </div>
     </section>
 
-    <section id="about">
-        <h2>About Us</h2>
-        <p>Onstra helps service-based businesses automate their follow-ups, lead capture, and operational workflows so you never miss a lead or a sale.</p>
-        <p>We focus on making systems that scale, giving you control and clarity over your business, and freeing you from manual busywork.</p>
-    </section>
-
+    <!-- ====== Scrolling Banner ====== -->
     <div class="scrolling-banner">
         <div class="banner-track">
             <span class="banner-item">Systems That Scale</span>
@@ -304,7 +119,60 @@
         </div>
     </div>
 
-    <!-- Keep your other sections like services, why, comparison, CTA, footer -->
+    <!-- ====== About Section ====== -->
+    <section class="about-section" id="about">
+        <h2>About Us</h2>
+        <p>Onstra is built for service business owners who are tired of chaos and missed opportunities. We automate follow-ups, lead capture, and workflows so you can scale without drowning in manual tasks.</p>
+    </section>
 
+    <!-- ====== Services Section ====== -->
+    <section class="services-section">
+        <div class="section-header">
+            <span class="section-label">What We Do</span>
+            <h2 class="section-title">Whether You're Just<br>Starting Out or Scaling Fast</h2>
+        </div>
+        <div class="services-grid">
+            <div class="service-card">
+                <div class="service-icon"></div>
+                <h3>Lead Capture & Routing</h3>
+                <h4>Connect everything in one place</h4>
+                <p>All your inbound channels—calls, texts, forms, social—into one system that never misses an inquiry.</p>
+                <a href="#" class="service-link">Learn More</a>
+            </div>
+            <div class="service-card">
+                <div class="service-icon"></div>
+                <h3>Automated Follow-Up</h3>
+                <h4>Never miss a lead again</h4>
+                <p>Sequences that automatically reach out to leads via text, email, or voicemail until they respond.</p>
+                <a href="#" class="service-link">Learn More</a>
+            </div>
+            <div class="service-card">
+                <div class="service-icon"></div>
+                <h3>Booking & Sales Automation</h3>
+                <h4>Turn leads into revenue</h4>
+                <p>Guide prospects from initial contact to booked appointment or completed sale without manual intervention.</p>
+                <a href="#" class="service-link">Learn More</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ====== CTA Section ====== -->
+    <section class="cta-section" id="contact">
+        <h2>Ready to Take<br>Control?</h2>
+        <p>Let's talk about automating your business so you can finally stop running everything from memory.</p>
+        <a href="https://calendly.com/onstrahq/setup-and-growth-consultation-1" target="_blank" class="hero-cta">Schedule a Call</a>
+    </section>
+
+    <!-- ====== Footer ====== -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">
+                <img src="logo.png" alt="Onstra">
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 Onstra. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
 </body>
 </html>
