@@ -180,6 +180,8 @@
             letter-spacing: 0.5px;
             transition: all 0.3s;
             display: inline-block;
+            border: none;
+            cursor: pointer;
         }
 
         .menu-cta:hover {
@@ -199,13 +201,16 @@
             display: block;
         }
 
-        /* Hero Section */
+        /* Hero Section with Animation */
         .hero {
             position: relative;
-            padding: 140px 40px 100px;
-            text-align: center;
+            padding: 100px 40px 80px;
             background: var(--white);
             overflow: hidden;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .hero::before {
@@ -222,9 +227,16 @@
             white-space: nowrap;
         }
 
-        .hero-content {
+        .hero-container {
+            max-width: 1400px;
+            width: 100%;
             position: relative;
             z-index: 1;
+        }
+
+        .hero-top {
+            text-align: center;
+            margin-bottom: 50px;
         }
 
         .hero-label {
@@ -234,24 +246,203 @@
             font-weight: 700;
             letter-spacing: 2px;
             color: rgba(0, 0, 0, 0.6);
-            margin-bottom: 24px;
+            margin-bottom: 20px;
         }
 
         .hero h1 {
-            font-size: 80px;
+            font-size: 72px;
             font-weight: 900;
             line-height: 0.95;
             letter-spacing: -0.04em;
-            margin-bottom: 28px;
+            margin-bottom: 20px;
             text-transform: uppercase;
         }
 
-        .hero p {
-            font-size: 20px;
-            color: rgba(0, 0, 0, 0.8);
-            max-width: 720px;
+        .hero-subtitle {
+            font-size: 18px;
+            color: rgba(0, 0, 0, 0.7);
+            max-width: 680px;
             margin: 0 auto 40px;
-            font-weight: 400;
+            line-height: 1.5;
+        }
+
+        /* Comparison Animation Container */
+        .comparison-demo {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 32px;
+            max-width: 1000px;
+            margin: 0 auto 50px;
+            padding: 0 20px;
+        }
+
+        .demo-column {
+            background: var(--black);
+            border-radius: 12px;
+            padding: 32px 24px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .demo-column::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+        }
+
+        .demo-column.chaos::before {
+            background: #ef4444;
+        }
+
+        .demo-column.control::before {
+            background: #10b981;
+        }
+
+        .column-header {
+            text-align: center;
+            margin-bottom: 24px;
+        }
+
+        .column-title {
+            font-size: 16px;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--white);
+            margin-bottom: 8px;
+        }
+
+        .column-subtitle {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.5);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Notification Cards */
+        .notification-stream {
+            min-height: 320px;
+            position: relative;
+        }
+
+        .notification-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 12px;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: slideInNotification 0.4s forwards;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .notification-card::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+        }
+
+        .chaos .notification-card::before {
+            background: #ef4444;
+        }
+
+        .control .notification-card::before {
+            background: #10b981;
+        }
+
+        .notification-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+
+        .notification-icon {
+            font-size: 16px;
+            font-weight: 900;
+        }
+
+        .chaos .notification-icon {
+            color: #ef4444;
+        }
+
+        .control .notification-icon {
+            color: #10b981;
+        }
+
+        .notification-title {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--white);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .notification-text {
+            font-size: 13px;
+            line-height: 1.5;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 8px;
+        }
+
+        .notification-time {
+            font-size: 10px;
+            color: rgba(255, 255, 255, 0.4);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        @keyframes slideInNotification {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-3px); }
+            75% { transform: translateX(3px); }
+        }
+
+        .chaos .notification-card {
+            animation: slideInNotification 0.4s forwards, shake 0.3s 0.4s;
+        }
+
+        /* Fade Effect for Looping */
+        .notification-card.fade-out {
+            animation: fadeOut 0.3s forwards;
+        }
+
+        @keyframes fadeOut {
+            to {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+        }
+
+        /* CTA Section in Hero */
+        .hero-cta-section {
+            text-align: center;
+        }
+
+        .hero-description {
+            font-size: 18px;
+            color: rgba(0, 0, 0, 0.7);
+            max-width: 700px;
+            margin: 0 auto 32px;
             line-height: 1.6;
         }
 
@@ -814,6 +1005,21 @@
             }
         }
 
+        @media (max-width: 968px) {
+            .hero h1 {
+                font-size: 56px;
+            }
+
+            .comparison-demo {
+                grid-template-columns: 1fr;
+                gap: 24px;
+            }
+
+            .hero::before {
+                font-size: 140px;
+            }
+        }
+
         @media (max-width: 768px) {
             nav {
                 padding: 20px;
@@ -828,19 +1034,27 @@
             }
 
             .hero {
-                padding: 100px 20px 80px;
+                padding: 80px 20px 60px;
             }
 
             .hero::before {
-                font-size: 120px;
+                font-size: 100px;
             }
 
             .hero h1 {
-                font-size: 48px;
+                font-size: 42px;
             }
 
-            .hero p {
-                font-size: 18px;
+            .hero-subtitle {
+                font-size: 16px;
+            }
+
+            .demo-column {
+                padding: 24px 16px;
+            }
+
+            .notification-stream {
+                min-height: 280px;
             }
 
             .section-title {
@@ -903,11 +1117,41 @@
     <!-- Home Page -->
     <div id="home" class="page-section active">
         <section class="hero">
-            <div class="hero-content">
-                <span class="hero-label">Automation for Service Businesses</span>
-                <h1>Stop Running<br>Your Business<br>From Memory</h1>
-                <p>We automate the chaos so you can focus on what matters. No more missed leads, forgotten follow-ups, or manual busywork holding you back.</p>
-                <button class="hero-cta cta-button">Get Control Back</button>
+            <div class="hero-container">
+                <div class="hero-top">
+                    <span class="hero-label">Automation for Service Businesses</span>
+                    <h1>Chaos vs Control</h1>
+                    <p class="hero-subtitle">See the difference automation makes in real-time</p>
+                </div>
+
+                <div class="comparison-demo">
+                    <!-- CHAOS SIDE -->
+                    <div class="demo-column chaos">
+                        <div class="column-header">
+                            <div class="column-title">Without Automation</div>
+                            <div class="column-subtitle">Chaos</div>
+                        </div>
+                        <div class="notification-stream" id="chaosStream">
+                            <!-- Notifications appear here -->
+                        </div>
+                    </div>
+
+                    <!-- CONTROL SIDE -->
+                    <div class="demo-column control">
+                        <div class="column-header">
+                            <div class="column-title">With Automation</div>
+                            <div class="column-subtitle">Control</div>
+                        </div>
+                        <div class="notification-stream" id="controlStream">
+                            <!-- Notifications appear here -->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="hero-cta-section">
+                    <p class="hero-description">Stop running your business from memory. We automate the chaos so you can focus on what matters.</p>
+                    <button class="hero-cta cta-button">Get Control Back</button>
+                </div>
             </div>
         </section>
 
@@ -1200,6 +1444,131 @@
     </footer>
 
     <script>
+        // Chaos vs Control Animation
+        const chaosNotifications = [
+            {
+                icon: '✕',
+                title: 'Missed Call',
+                text: 'Customer called at 2:15 PM, no answer',
+                time: 'Just now',
+                delay: 0
+            },
+            {
+                icon: '✕',
+                title: 'Lead Lost',
+                text: 'No follow-up sent. Customer chose competitor.',
+                time: '30 min ago',
+                delay: 1800
+            },
+            {
+                icon: '✕',
+                title: 'Forgotten Task',
+                text: 'Forgot to send estimate to Sarah from yesterday',
+                time: '1 day ago',
+                delay: 1800
+            },
+            {
+                icon: '✕',
+                title: 'Manual Work',
+                text: 'Need to manually respond to 15 leads today',
+                time: '2 hours ago',
+                delay: 1800
+            }
+        ];
+
+        const controlNotifications = [
+            {
+                icon: '✓',
+                title: 'Auto-Response',
+                text: 'Instant SMS sent: "Thanks for calling! How can we help?"',
+                time: 'Just now',
+                delay: 0
+            },
+            {
+                icon: '✓',
+                title: 'Lead Captured',
+                text: 'Customer info saved to CRM automatically',
+                time: '30 min ago',
+                delay: 1800
+            },
+            {
+                icon: '✓',
+                title: 'Follow-up Sent',
+                text: 'Estimate delivered & follow-up sequence started',
+                time: '1 day ago',
+                delay: 1800
+            },
+            {
+                icon: '✓',
+                title: 'Booked Appointment',
+                text: 'Customer scheduled consultation via auto calendar',
+                time: '2 hours ago',
+                delay: 1800
+            }
+        ];
+
+        function createNotificationCard(notification) {
+            const card = document.createElement('div');
+            card.className = 'notification-card';
+            card.innerHTML = `
+                <div class="notification-header">
+                    <span class="notification-icon">${notification.icon}</span>
+                    <span class="notification-title">${notification.title}</span>
+                </div>
+                <div class="notification-text">${notification.text}</div>
+                <div class="notification-time">${notification.time}</div>
+            `;
+            return card;
+        }
+
+        function animateStream(notifications, containerId) {
+            const container = document.getElementById(containerId);
+            let currentIndex = 0;
+            let totalDelay = 0;
+
+            function showNextNotification() {
+                if (currentIndex >= notifications.length) {
+                    // Clear all and restart
+                    setTimeout(() => {
+                        const cards = container.querySelectorAll('.notification-card');
+                        cards.forEach((card, index) => {
+                            setTimeout(() => {
+                                card.classList.add('fade-out');
+                            }, index * 100);
+                        });
+
+                        setTimeout(() => {
+                            container.innerHTML = '';
+                            currentIndex = 0;
+                            totalDelay = 0;
+                            showNextNotification();
+                        }, cards.length * 100 + 500);
+                    }, 3000);
+                    return;
+                }
+
+                const notification = notifications[currentIndex];
+                totalDelay += notification.delay;
+
+                setTimeout(() => {
+                    const card = createNotificationCard(notification);
+                    container.appendChild(card);
+                    currentIndex++;
+                    showNextNotification();
+                }, totalDelay);
+            }
+
+            showNextNotification();
+        }
+
+        // Start animations when page loads
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                animateStream(chaosNotifications, 'chaosStream');
+                animateStream(controlNotifications, 'controlStream');
+            }, 300);
+        });
+
         // Hamburger Menu Toggle
         const hamburger = document.getElementById('hamburger');
         const menuOverlay = document.getElementById('menuOverlay');
@@ -1214,21 +1583,17 @@
         // Logo Click - Navigate to Home
         const logo = document.querySelector('.logo');
         logo.addEventListener('click', () => {
-            // Hide all pages
             const pageSections = document.querySelectorAll('.page-section');
             pageSections.forEach(section => {
                 section.classList.remove('active');
             });
             
-            // Show home page
             document.getElementById('home').classList.add('active');
             
-            // Close menu if open
             hamburger.classList.remove('active');
             menuOverlay.classList.remove('active');
             body.classList.remove('menu-open');
             
-            // Scroll to top
             window.scrollTo(0, 0);
         });
 
@@ -1241,20 +1606,16 @@
                 e.preventDefault();
                 const targetPage = link.getAttribute('data-page');
                 
-                // Hide all pages
                 pageSections.forEach(section => {
                     section.classList.remove('active');
                 });
                 
-                // Show target page
                 document.getElementById(targetPage).classList.add('active');
                 
-                // Close menu
                 hamburger.classList.remove('active');
                 menuOverlay.classList.remove('active');
                 body.classList.remove('menu-open');
                 
-                // Scroll to top
                 window.scrollTo(0, 0);
             });
         });
