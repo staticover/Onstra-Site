@@ -3,26 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Onstra automates follow-ups, lead capture, and operations for service businesses. Stop losing leads to chaos.">
-    <title>Onstra | Automation for Service Businesses</title>
+    <meta name="description" content="Onstra builds custom software, web apps, and CRMs for service businesses. We find and build the solution your business actually needs.">
+    <title>Onstra | We Build What Your Business Needs</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet">
     <script src="https://assets.calendly.com/assets/external/widget.js" type="text/javascript" async></script>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         :root {
             --black: #000000;
             --white: #ffffff;
             --light-bg: #fafafa;
             --card-bg: #000000;
-            --border: rgba(0, 0, 0, 0.1);
+            --border: rgba(0,0,0,0.1);
         }
 
         body {
@@ -31,1166 +27,742 @@
             color: var(--black);
             line-height: 1.6;
             overflow-x: hidden;
+            cursor: none;
         }
 
-        body.menu-open {
-            overflow: hidden;
-        }
+        body.menu-open { overflow: hidden; }
 
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 0 40px;
+        /* CUSTOM CURSOR */
+        .cursor {
+            width: 10px; height: 10px;
+            background: var(--black);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+            transition: width 0.2s, height 0.2s, background 0.2s;
         }
+        .cursor-ring {
+            width: 32px; height: 32px;
+            border: 1.5px solid rgba(0,0,0,0.3);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9998;
+            transform: translate(-50%, -50%);
+            transition: width 0.3s, height 0.3s, border-color 0.3s;
+        }
+        .cursor.hover { width: 18px; height: 18px; }
+        .cursor-ring.hover { width: 44px; height: 44px; border-color: rgba(0,0,0,0.15); }
+        .menu-overlay.active ~ * .cursor,
+        .menu-overlay.active .cursor { background: var(--black); }
 
-        /* Header */
+        /* HEADER */
         header {
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            background: rgba(255, 255, 255, 0.95);
+            position: sticky; top: 0; z-index: 1000;
+            background: rgba(255,255,255,0.95);
             backdrop-filter: blur(10px);
             border-bottom: 1px solid var(--border);
         }
-
         nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            display: flex; justify-content: space-between; align-items: center;
             padding: 20px 40px;
         }
-
         .logo {
-            height: 40px;
-            z-index: 1001;
-            position: relative;
-            cursor: pointer;
+            height: 40px; z-index: 1001; position: relative; cursor: pointer;
+            display: flex; align-items: center;
+        }
+        .logo img { height: 100%; width: auto; }
+        .logo-text {
+            font-size: 22px; font-weight: 900; letter-spacing: -0.03em;
+            text-transform: uppercase; color: var(--black);
         }
 
-        .logo img {
-            height: 100%;
-            width: auto;
-        }
-
-        /* Hamburger Menu */
+        /* HAMBURGER */
         .hamburger {
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            width: 28px;
-            height: 20px;
-            cursor: pointer;
-            z-index: 1001;
-            position: relative;
-            transition: transform 0.3s;
+            display: flex; flex-direction: column; justify-content: space-between;
+            width: 28px; height: 20px; cursor: pointer;
+            z-index: 1001; position: relative; transition: transform 0.3s;
         }
+        .hamburger:hover { transform: scale(1.1); }
+        .hamburger span { display: block; height: 2px; width: 100%; background: var(--black); transition: all 0.3s; }
+        .hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(7px,7px); }
+        .hamburger.active span:nth-child(2) { opacity: 0; }
+        .hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(7px,-7px); }
 
-        .hamburger:hover {
-            transform: scale(1.1);
-        }
-
-        .hamburger span {
-            display: block;
-            height: 2px;
-            width: 100%;
-            background: var(--black);
-            transition: all 0.3s;
-        }
-
-        .hamburger.active span:nth-child(1) {
-            transform: rotate(45deg) translate(7px, 7px);
-        }
-
-        .hamburger.active span:nth-child(2) {
-            opacity: 0;
-        }
-
-        .hamburger.active span:nth-child(3) {
-            transform: rotate(-45deg) translate(7px, -7px);
-        }
-
-        /* Full Screen Menu */
+        /* FULLSCREEN MENU */
         .menu-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100vh;
-            background: rgba(255, 255, 255, 0.98);
-            backdrop-filter: blur(10px);
-            z-index: 999;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.4s, visibility 0.4s;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
+            background: rgba(255,255,255,0.98); backdrop-filter: blur(10px);
+            z-index: 999; display: flex; align-items: center; justify-content: center;
+            opacity: 0; visibility: hidden; transition: opacity 0.4s, visibility 0.4s;
         }
-
-        .menu-overlay.active {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        .menu-content {
-            text-align: center;
-            transform: translateY(30px);
-            transition: transform 0.4s 0.1s;
-        }
-
-        .menu-overlay.active .menu-content {
-            transform: translateY(0);
-        }
-
-        .menu-links {
-            list-style: none;
-            margin-bottom: 40px;
-        }
-
-        .menu-links li {
-            margin: 20px 0;
-        }
-
+        .menu-overlay.active { opacity: 1; visibility: visible; }
+        .menu-content { text-align: center; transform: translateY(30px); transition: transform 0.4s 0.1s; }
+        .menu-overlay.active .menu-content { transform: translateY(0); }
+        .menu-links { list-style: none; margin-bottom: 40px; }
+        .menu-links li { margin: 20px 0; }
         .menu-links a {
-            color: var(--black);
-            text-decoration: none;
-            font-size: 48px;
-            font-weight: 900;
-            text-transform: uppercase;
-            letter-spacing: -0.02em;
-            transition: all 0.3s;
-            display: inline-block;
+            color: var(--black); text-decoration: none;
+            font-size: 48px; font-weight: 900; text-transform: uppercase;
+            letter-spacing: -0.02em; transition: all 0.3s; display: inline-block;
         }
-
-        .menu-links a:hover {
-            color: var(--black);
-            transform: translateX(10px);
-            opacity: 0.6;
-        }
-
+        .menu-links a:hover { transform: translateX(10px); opacity: 0.6; }
         .menu-cta {
-            background: var(--black);
-            color: var(--white);
-            padding: 18px 36px;
-            border-radius: 4px;
-            text-decoration: none;
-            font-weight: 700;
-            font-size: 16px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            transition: all 0.3s;
-            display: inline-block;
-            border: none;
-            cursor: pointer;
+            background: var(--black); color: var(--white);
+            padding: 18px 36px; border-radius: 4px; text-decoration: none;
+            font-weight: 700; font-size: 16px; text-transform: uppercase;
+            letter-spacing: 0.5px; transition: all 0.3s; display: inline-block;
+            border: none; cursor: pointer;
         }
+        .menu-cta:hover { transform: translateY(-2px); box-shadow: 0 10px 40px rgba(0,0,0,0.3); }
 
-        .menu-cta:hover {
-            background: var(--black);
-            color: var(--white);
-            transform: translateY(-2px);
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
-        }
+        /* PAGE SECTIONS */
+        .page-section { display: none; min-height: 100vh; }
+        .page-section.active { display: block; }
 
-        /* Page Sections */
-        .page-section {
-            display: none;
-            min-height: 100vh;
-        }
-
-        .page-section.active {
-            display: block;
-        }
-
-        /* Hero Section with Animation */
+        /* HERO */
         .hero {
-            position: relative;
-            padding: 100px 40px 80px;
-            background: var(--white);
-            overflow: hidden;
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            position: relative; padding: 100px 40px 80px;
+            background: var(--white); overflow: hidden;
+            min-height: 100vh; display: flex; align-items: center; justify-content: center;
         }
-
         .hero::before {
             content: 'ONSTRA';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 280px;
-            font-weight: 900;
-            color: rgba(0, 0, 0, 0.02);
-            letter-spacing: -0.05em;
-            z-index: 0;
-            white-space: nowrap;
+            position: absolute; top: 50%; left: 50%;
+            transform: translate(-50%,-50%);
+            font-size: 280px; font-weight: 900;
+            color: rgba(0,0,0,0.02); letter-spacing: -0.05em;
+            z-index: 0; white-space: nowrap;
         }
-
-        .hero-container {
-            max-width: 1400px;
-            width: 100%;
-            position: relative;
-            z-index: 1;
-        }
-
-        .hero-top {
-            text-align: center;
-            margin-bottom: 50px;
-        }
-
+        .hero-container { max-width: 1400px; width: 100%; position: relative; z-index: 1; }
+        .hero-top { text-align: center; margin-bottom: 50px; }
         .hero-label {
-            display: inline-block;
-            text-transform: uppercase;
-            font-size: 13px;
-            font-weight: 700;
-            letter-spacing: 2px;
-            color: rgba(0, 0, 0, 0.6);
-            margin-bottom: 20px;
+            display: inline-block; text-transform: uppercase;
+            font-size: 13px; font-weight: 700; letter-spacing: 2px;
+            color: rgba(0,0,0,0.6); margin-bottom: 20px;
         }
-
         .hero h1 {
-            font-size: 72px;
-            font-weight: 900;
-            line-height: 0.95;
-            letter-spacing: -0.04em;
-            margin-bottom: 20px;
-            text-transform: uppercase;
+            font-size: 72px; font-weight: 900; line-height: 0.95;
+            letter-spacing: -0.04em; margin-bottom: 20px; text-transform: uppercase;
         }
-
         .hero-subtitle {
-            font-size: 18px;
-            color: rgba(0, 0, 0, 0.7);
-            max-width: 680px;
-            margin: 0 auto 40px;
-            line-height: 1.5;
+            font-size: 18px; color: rgba(0,0,0,0.7);
+            max-width: 680px; margin: 0 auto 40px; line-height: 1.5;
         }
 
-        /* Comparison Animation Container */
+        /* COMPARISON DEMO */
         .comparison-demo {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 32px;
-            max-width: 1000px;
-            margin: 0 auto 50px;
-            padding: 0 20px;
+            display: grid; grid-template-columns: 1fr 1fr; gap: 32px;
+            max-width: 1000px; margin: 0 auto 50px; padding: 0 20px;
         }
-
         .demo-column {
-            background: var(--black);
-            border-radius: 12px;
-            padding: 32px 24px;
-            position: relative;
-            overflow: hidden;
+            background: var(--black); border-radius: 12px;
+            padding: 32px 24px; position: relative; overflow: hidden;
         }
-
         .demo-column::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 3px;
+            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
         }
-
-        .demo-column.chaos::before {
-            background: #ef4444;
-        }
-
-        .demo-column.control::before {
-            background: #10b981;
-        }
-
-        .column-header {
-            text-align: center;
-            margin-bottom: 24px;
-        }
-
+        .demo-column.chaos::before { background: #ef4444; }
+        .demo-column.control::before { background: #10b981; }
+        .column-header { text-align: center; margin-bottom: 24px; }
         .column-title {
-            font-size: 16px;
-            font-weight: 900;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            color: var(--white);
-            margin-bottom: 8px;
+            font-size: 16px; font-weight: 900; text-transform: uppercase;
+            letter-spacing: 1.5px; color: var(--white); margin-bottom: 8px;
         }
-
         .column-subtitle {
-            font-size: 12px;
-            color: rgba(255, 255, 255, 0.5);
-            text-transform: uppercase;
-            letter-spacing: 1px;
+            font-size: 12px; color: rgba(255,255,255,0.5);
+            text-transform: uppercase; letter-spacing: 1px;
         }
-
-        /* Notification Cards */
-        .notification-stream {
-            min-height: 320px;
-            position: relative;
-        }
-
+        .notification-stream { position: relative; }
         .notification-card {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 8px;
-            padding: 16px;
-            margin-bottom: 12px;
-            opacity: 0;
-            transform: translateY(20px);
-            animation: slideInNotification 0.4s forwards;
-            position: relative;
-            overflow: hidden;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 8px; padding: 16px; margin-bottom: 12px;
+            position: relative; overflow: hidden;
         }
-
+        .notification-card:last-child { margin-bottom: 0; }
         .notification-card::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 0;
-            bottom: 0;
-            width: 3px;
+            content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px;
         }
-
-        .chaos .notification-card::before {
-            background: #ef4444;
-        }
-
-        .control .notification-card::before {
-            background: #10b981;
-        }
-
-        .notification-header {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            margin-bottom: 8px;
-        }
-
-        .notification-icon {
-            font-size: 16px;
-            font-weight: 900;
-        }
-
-        .chaos .notification-icon {
-            color: #ef4444;
-        }
-
-        .control .notification-icon {
-            color: #10b981;
-        }
-
+        .chaos .notification-card::before { background: #ef4444; }
+        .control .notification-card::before { background: #10b981; }
+        .notification-header { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+        .notif-svg { flex-shrink: 0; }
         .notification-title {
-            font-size: 13px;
-            font-weight: 700;
-            color: var(--white);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
+            font-size: 13px; font-weight: 700; color: var(--white);
+            text-transform: uppercase; letter-spacing: 0.5px;
         }
-
         .notification-text {
-            font-size: 13px;
-            line-height: 1.5;
-            color: rgba(255, 255, 255, 0.7);
-            margin-bottom: 8px;
+            font-size: 13px; line-height: 1.5;
+            color: rgba(255,255,255,0.7); margin-bottom: 8px;
         }
-
         .notification-time {
-            font-size: 10px;
-            color: rgba(255, 255, 255, 0.4);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
+            font-size: 10px; color: rgba(255,255,255,0.4);
+            text-transform: uppercase; letter-spacing: 0.5px;
         }
 
-        @keyframes slideInNotification {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            25% { transform: translateX(-3px); }
-            75% { transform: translateX(3px); }
-        }
-
-        .chaos .notification-card {
-            animation: slideInNotification 0.4s forwards, shake 0.3s 0.4s;
-        }
-
-        /* Fade Effect for Looping */
-        .notification-card.fade-out {
-            animation: fadeOut 0.3s forwards;
-        }
-
-        @keyframes fadeOut {
-            to {
-                opacity: 0;
-                transform: translateY(-10px);
-            }
-        }
-
-        /* CTA Section in Hero */
-        .hero-cta-section {
-            text-align: center;
-        }
-
+        /* HERO CTA */
+        .hero-cta-section { text-align: center; }
         .hero-description {
-            font-size: 18px;
-            color: rgba(0, 0, 0, 0.7);
-            max-width: 700px;
-            margin: 0 auto 32px;
-            line-height: 1.6;
+            font-size: 18px; color: rgba(0,0,0,0.7);
+            max-width: 700px; margin: 0 auto 32px; line-height: 1.6;
         }
-
         .hero-cta, .cta-button {
-            display: inline-flex;
-            align-items: center;
-            gap: 12px;
-            background: var(--black);
-            color: var(--white);
-            padding: 18px 36px;
-            border-radius: 4px;
-            text-decoration: none;
-            font-weight: 700;
-            font-size: 15px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            transition: all 0.3s;
-            border: none;
-            cursor: pointer;
+            display: inline-flex; align-items: center; gap: 12px;
+            background: var(--black); color: var(--white);
+            padding: 18px 36px; border-radius: 4px; text-decoration: none;
+            font-weight: 700; font-size: 15px; text-transform: uppercase;
+            letter-spacing: 0.5px; transition: all 0.3s; border: none; cursor: pointer;
         }
-
         .hero-cta:hover, .cta-button:hover {
-            background: var(--black);
-            transform: translateY(-2px);
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            transform: translateY(-2px); box-shadow: 0 10px 40px rgba(0,0,0,0.3);
         }
+        .hero-cta::after { content: '→'; font-size: 20px; }
 
-        .hero-cta::after {
-            content: '→';
-            font-size: 20px;
-        }
-
-        /* Scrolling Banner */
+        /* SCROLLING BANNER */
         .scrolling-banner {
             background: var(--light-bg);
-            border-top: 1px solid var(--border);
-            border-bottom: 1px solid var(--border);
-            padding: 24px 0;
-            overflow: hidden;
-            white-space: nowrap;
+            border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+            padding: 24px 0; overflow: hidden; white-space: nowrap;
         }
-
-        .banner-track {
-            display: inline-block;
-            animation: scroll 30s linear infinite;
-        }
-
+        .banner-track { display: inline-block; animation: scroll 30s linear infinite; }
         .banner-item {
-            display: inline-block;
-            padding: 0 60px;
-            font-size: 16px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1px;
+            display: inline-block; padding: 0 60px;
+            font-size: 16px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;
         }
-
-        .banner-item::before {
-            content: '● ';
-            color: var(--black);
-            margin-right: 12px;
-        }
-
+        .banner-item::before { content: '● '; color: var(--black); margin-right: 12px; }
         @keyframes scroll {
             0% { transform: translateX(0); }
             100% { transform: translateX(-50%); }
         }
 
-        /* Services Section */
-        .services-section {
-            padding: 120px 40px;
-            background: var(--white);
-        }
-
-        .section-header {
-            text-align: center;
-            margin-bottom: 80px;
-        }
-
+        /* SERVICES */
+        .services-section { padding: 120px 40px; background: var(--white); }
+        .section-header { text-align: center; margin-bottom: 80px; }
         .section-label {
-            display: inline-block;
-            text-transform: uppercase;
-            font-size: 13px;
-            font-weight: 700;
-            letter-spacing: 2px;
-            color: rgba(0, 0, 0, 0.6);
-            margin-bottom: 16px;
+            display: inline-block; text-transform: uppercase;
+            font-size: 13px; font-weight: 700; letter-spacing: 2px;
+            color: rgba(0,0,0,0.6); margin-bottom: 16px;
         }
-
         .section-title {
-            font-size: 56px;
-            font-weight: 900;
-            line-height: 1.1;
-            letter-spacing: -0.03em;
-            text-transform: uppercase;
+            font-size: 56px; font-weight: 900; line-height: 1.1;
+            letter-spacing: -0.03em; text-transform: uppercase;
         }
-
         .services-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 32px;
-            max-width: 1200px;
-            margin: 0 auto;
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(350px,1fr));
+            gap: 32px; max-width: 1200px; margin: 0 auto;
         }
-
         .service-card {
-            background: var(--card-bg);
-            padding: 48px;
-            border-radius: 8px;
-            border: 1px solid var(--black);
-            transition: all 0.3s;
+            background: var(--card-bg); padding: 48px; border-radius: 8px;
+            border: 1px solid var(--black); transition: all 0.3s;
         }
-
         .service-card:hover {
-            border-color: var(--black);
-            transform: translateY(-4px);
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            transform: translateY(-4px); box-shadow: 0 10px 40px rgba(0,0,0,0.2);
         }
-
         .service-icon {
-            width: 56px;
-            height: 56px;
-            background: var(--black);
-            border-radius: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 28px;
-            margin-bottom: 24px;
-            position: relative;
+            width: 48px; height: 48px; margin-bottom: 24px;
+            display: flex; align-items: center; justify-content: center;
+            color: var(--white);
         }
-
-        .service-icon::before {
-            content: '';
-            width: 24px;
-            height: 24px;
-            background: var(--white);
-        }
-
-        .service-card:nth-child(1) .service-icon::before {
-            clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
-        }
-
-        .service-card:nth-child(2) .service-icon::before {
-            clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
-        }
-
-        .service-card:nth-child(3) .service-icon::before {
-            clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
-        }
-
         .service-card h3 {
-            font-size: 24px;
-            font-weight: 700;
-            margin-bottom: 12px;
-            text-transform: uppercase;
-            letter-spacing: -0.01em;
-            color: var(--white);
+            font-size: 24px; font-weight: 700; margin-bottom: 12px;
+            text-transform: uppercase; letter-spacing: -0.01em; color: var(--white);
         }
-
         .service-card h4 {
-            font-size: 15px;
-            color: rgba(255, 255, 255, 0.7);
-            margin-bottom: 20px;
-            font-weight: 600;
+            font-size: 15px; color: rgba(255,255,255,0.7);
+            margin-bottom: 20px; font-weight: 600;
+        }
+        .service-card p { color: rgba(255,255,255,0.8); line-height: 1.7; font-size: 16px; }
+        .service-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px; }
+        .service-tag {
+            font-size: 11px; font-weight: 600; text-transform: uppercase;
+            letter-spacing: 1px; color: rgba(255,255,255,0.5);
+            border: 1px solid rgba(255,255,255,0.15);
+            padding: 4px 10px; border-radius: 2px;
         }
 
-        .service-card p {
-            color: rgba(255, 255, 255, 0.8);
-            line-height: 1.7;
-            font-size: 16px;
+        /* WORK SECTION */
+        .work-section { padding: 120px 40px; background: var(--light-bg); }
+        .work-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(440px,1fr));
+            gap: 32px; max-width: 1200px; margin: 0 auto;
+        }
+        .work-card {
+            background: var(--black); padding: 48px; border-radius: 8px;
+            border: 1px solid var(--black); transition: all 0.3s;
+        }
+        .work-card:hover {
+            transform: translateY(-4px); box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+        .work-industry {
+            font-size: 12px; font-weight: 700; text-transform: uppercase;
+            letter-spacing: 2px; color: rgba(255,255,255,0.5); margin-bottom: 12px;
+        }
+        .work-name {
+            font-size: 28px; font-weight: 900; text-transform: uppercase;
+            letter-spacing: -0.02em; color: var(--white); margin-bottom: 16px;
+        }
+        .work-desc {
+            font-size: 16px; color: rgba(255,255,255,0.75);
+            line-height: 1.7; margin-bottom: 28px;
+        }
+        .work-features { display: flex; flex-wrap: wrap; gap: 8px; }
+        .work-feature {
+            font-size: 11px; font-weight: 600; text-transform: uppercase;
+            letter-spacing: 0.8px; color: rgba(255,255,255,0.5);
+            border: 1px solid rgba(255,255,255,0.12);
+            padding: 4px 10px; border-radius: 2px;
         }
 
-        /* Why Section */
-        .why-section {
-            padding: 120px 40px;
-            background: var(--light-bg);
-        }
-
+        /* WHY */
+        .why-section { padding: 120px 40px; background: var(--white); }
         .why-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 40px;
-            max-width: 1200px;
-            margin: 60px auto 0;
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(320px,1fr));
+            gap: 40px; max-width: 1200px; margin: 60px auto 0;
         }
-
-        .why-item {
-            display: flex;
-            gap: 20px;
-        }
-
-        .why-icon {
-            flex-shrink: 0;
-            width: 28px;
-            height: 28px;
-        }
-
-        .why-icon svg {
-            width: 100%;
-            height: 100%;
-            stroke: var(--black);
-        }
-
+        .why-item { display: flex; gap: 20px; }
+        .why-icon { flex-shrink: 0; width: 28px; height: 28px; }
+        .why-icon svg { width: 100%; height: 100%; stroke: var(--black); }
         .why-item h3 {
-            font-size: 20px;
-            font-weight: 700;
-            margin-bottom: 8px;
-            text-transform: uppercase;
-            letter-spacing: -0.01em;
+            font-size: 20px; font-weight: 700; margin-bottom: 8px;
+            text-transform: uppercase; letter-spacing: -0.01em;
         }
+        .why-item p { color: rgba(0,0,0,0.8); line-height: 1.6; font-size: 15px; }
 
-        .why-item p {
-            color: rgba(0, 0, 0, 0.8);
-            line-height: 1.6;
-            font-size: 15px;
-        }
-
-        /* Comparison Table */
-        .comparison-section {
-            padding: 120px 40px;
-            background: var(--white);
-        }
-
+        /* COMPARISON TABLE */
+        .comparison-section { padding: 120px 40px; background: var(--light-bg); }
         .comparison-table {
-            max-width: 1000px;
-            margin: 60px auto 0;
-            background: var(--black);
-            border-radius: 8px;
-            overflow: hidden;
-            border: 1px solid var(--black);
+            max-width: 1000px; margin: 60px auto 0;
+            background: var(--black); border-radius: 8px;
+            overflow: hidden; border: 1px solid var(--black);
         }
-
         .comparison-header {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            background: var(--black);
-            padding: 24px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-            font-weight: 700;
-            font-size: 14px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: var(--white);
+            display: grid; grid-template-columns: 1fr 1fr 1fr;
+            background: var(--black); padding: 24px;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+            font-weight: 700; font-size: 14px; text-transform: uppercase;
+            letter-spacing: 1px; color: var(--white);
         }
-
-        .comparison-header div:nth-child(3) {
-            color: var(--white);
-        }
-
         .comparison-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            padding: 20px 24px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            align-items: center;
-            font-size: 15px;
-            color: var(--white);
+            display: grid; grid-template-columns: 1fr 1fr 1fr;
+            padding: 20px 24px; border-bottom: 1px solid rgba(255,255,255,0.1);
+            align-items: center; font-size: 15px; color: var(--white);
         }
+        .comparison-row:last-child { border-bottom: none; }
+        .comparison-check { text-align: center; font-size: 20px; }
+        .comparison-check.yes { color: var(--white); }
+        .comparison-check.no { color: #ef4444; }
+        .check-svg { display: inline-block; }
+        .x-svg { display: inline-block; color: #ef4444; }
 
-        .comparison-row:last-child {
-            border-bottom: none;
-        }
-
-        .comparison-check {
-            text-align: center;
-            font-size: 20px;
-        }
-
-        .comparison-check.yes {
-            color: var(--white);
-        }
-
-        .comparison-check.no {
-            color: #ef4444;
-        }
-
-        /* CTA Section */
+        /* CTA SECTION */
         .cta-section {
-            padding: 140px 40px;
-            background: var(--light-bg);
-            text-align: center;
-            position: relative;
-            overflow: hidden;
+            padding: 140px 40px; background: var(--light-bg);
+            text-align: center; position: relative; overflow: hidden;
         }
-
         .cta-section::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 1px;
+            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
             background: linear-gradient(90deg, transparent, rgba(0,0,0,0.2), transparent);
         }
-
         .cta-section h2 {
-            font-size: 64px;
-            font-weight: 900;
-            line-height: 1.1;
-            letter-spacing: -0.03em;
-            margin-bottom: 24px;
-            text-transform: uppercase;
+            font-size: 64px; font-weight: 900; line-height: 1.1;
+            letter-spacing: -0.03em; margin-bottom: 24px; text-transform: uppercase;
         }
-
         .cta-section p {
-            font-size: 20px;
-            color: rgba(0, 0, 0, 0.8);
-            margin-bottom: 48px;
-            max-width: 700px;
-            margin-left: auto;
-            margin-right: auto;
+            font-size: 20px; color: rgba(0,0,0,0.8); margin-bottom: 48px;
+            max-width: 700px; margin-left: auto; margin-right: auto;
         }
 
-        /* About Page */
-        .about-hero {
-            padding: 180px 40px 80px;
-            text-align: center;
-            background: var(--white);
-        }
-
+        /* ABOUT PAGE */
+        .about-hero { padding: 180px 40px 80px; text-align: center; background: var(--white); }
         .about-hero h1 {
-            font-size: 72px;
-            font-weight: 900;
-            text-transform: uppercase;
-            letter-spacing: -0.03em;
-            margin-bottom: 24px;
+            font-size: 72px; font-weight: 900; text-transform: uppercase;
+            letter-spacing: -0.03em; margin-bottom: 24px;
         }
-
-        .about-hero p {
-            font-size: 22px;
-            color: rgba(0, 0, 0, 0.8);
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        .about-content {
-            padding: 100px 40px;
-            background: var(--light-bg);
-        }
-
-        .about-grid {
-            max-width: 1000px;
-            margin: 0 auto;
-            display: grid;
-            gap: 60px;
-        }
-
+        .about-hero p { font-size: 22px; color: rgba(0,0,0,0.8); max-width: 800px; margin: 0 auto; }
+        .about-content { padding: 100px 40px; background: var(--light-bg); }
+        .about-grid { max-width: 1000px; margin: 0 auto; display: grid; gap: 60px; }
         .about-block h2 {
-            font-size: 36px;
-            font-weight: 900;
-            text-transform: uppercase;
-            margin-bottom: 20px;
-            color: var(--black);
+            font-size: 36px; font-weight: 900; text-transform: uppercase;
+            margin-bottom: 20px; color: var(--black);
         }
-
         .about-block p {
-            font-size: 18px;
-            color: rgba(0, 0, 0, 0.8);
-            line-height: 1.8;
-            margin-bottom: 16px;
+            font-size: 18px; color: rgba(0,0,0,0.8);
+            line-height: 1.8; margin-bottom: 16px;
         }
 
-        /* Testimonials Page */
-        .testimonials-hero {
-            padding: 180px 40px 80px;
-            text-align: center;
-            background: var(--white);
+        /* PROCESS PAGE */
+        .process-hero { padding: 180px 40px 80px; text-align: center; background: var(--white); }
+        .process-hero h1 {
+            font-size: 72px; font-weight: 900; text-transform: uppercase;
+            letter-spacing: -0.03em; margin-bottom: 24px;
         }
-
-        .testimonials-hero h1 {
-            font-size: 72px;
-            font-weight: 900;
-            text-transform: uppercase;
-            letter-spacing: -0.03em;
-            margin-bottom: 24px;
+        .process-hero p { font-size: 22px; color: rgba(0,0,0,0.8); max-width: 800px; margin: 0 auto; }
+        .process-grid {
+            padding: 100px 40px; background: var(--light-bg);
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(400px,1fr));
+            gap: 40px; max-width: 1200px; margin: 0 auto;
         }
-
-        .testimonials-hero p {
-            font-size: 22px;
-            color: rgba(0, 0, 0, 0.8);
-            max-width: 800px;
-            margin: 0 auto;
+        .process-card {
+            background: var(--black); padding: 48px; border-radius: 8px;
+            border: 1px solid var(--black); transition: all 0.3s;
         }
-
-        .testimonials-grid {
-            padding: 100px 40px;
-            background: var(--light-bg);
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-            gap: 40px;
-            max-width: 1200px;
-            margin: 0 auto;
+        .process-card:hover { transform: translateY(-4px); box-shadow: 0 10px 40px rgba(0,0,0,0.2); }
+        .process-num {
+            font-size: 48px; font-weight: 900; color: rgba(255,255,255,0.12);
+            letter-spacing: -0.03em; margin-bottom: 8px; line-height: 1;
         }
-
-        .testimonial-card {
-            background: var(--black);
-            padding: 48px;
-            border-radius: 8px;
-            border: 1px solid var(--black);
-            transition: all 0.3s;
+        .process-card h3 {
+            font-size: 24px; font-weight: 700; text-transform: uppercase;
+            margin-bottom: 16px; color: var(--white);
         }
+        .process-card p { color: rgba(255,255,255,0.75); line-height: 1.7; font-size: 16px; }
 
-        .testimonial-card:hover {
-            border-color: var(--black);
-            transform: translateY(-4px);
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
-        }
-
-        .testimonial-stars {
-            color: var(--white);
-            font-size: 24px;
-            margin-bottom: 20px;
-        }
-
-        .testimonial-card h3 {
-            color: var(--white);
-        }
-
-        .testimonial-text {
-            font-size: 18px;
-            line-height: 1.7;
-            color: rgba(255, 255, 255, 0.8);
-            margin-bottom: 24px;
-        }
-
-        .testimonial-author {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            border-top: 1px solid rgba(255, 255, 255, 0.2);
-            padding-top: 24px;
-        }
-
-        .author-avatar {
-            width: 50px;
-            height: 50px;
-            background: var(--white);
-            color: var(--black);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 700;
-            font-size: 20px;
-        }
-
-        .author-info h4 {
-            font-weight: 700;
-            margin-bottom: 4px;
-            color: var(--white);
-        }
-
-        .author-info p {
-            color: rgba(255, 255, 255, 0.6);
-            font-size: 14px;
-        }
-
-        /* Contact Page */
-        .contact-hero {
-            padding: 180px 40px 80px;
-            text-align: center;
-            background: var(--white);
-        }
-
+        /* CONTACT PAGE */
+        .contact-hero { padding: 180px 40px 80px; text-align: center; background: var(--white); }
         .contact-hero h1 {
-            font-size: 72px;
-            font-weight: 900;
-            text-transform: uppercase;
-            letter-spacing: -0.03em;
-            margin-bottom: 24px;
+            font-size: 72px; font-weight: 900; text-transform: uppercase;
+            letter-spacing: -0.03em; margin-bottom: 24px;
         }
-
         .contact-hero p {
-            font-size: 22px;
-            color: rgba(0, 0, 0, 0.8);
-            max-width: 800px;
-            margin: 0 auto 40px;
+            font-size: 22px; color: rgba(0,0,0,0.8);
+            max-width: 800px; margin: 0 auto 40px;
         }
-
-        .contact-content {
-            padding: 100px 40px;
-            background: var(--light-bg);
-            text-align: center;
-        }
-
-        .contact-info {
-            max-width: 600px;
-            margin: 0 auto 60px;
-        }
-
-        .contact-item {
-            margin-bottom: 32px;
-        }
-
+        .contact-content { padding: 100px 40px; background: var(--light-bg); text-align: center; }
+        .contact-info { max-width: 600px; margin: 0 auto 60px; }
+        .contact-item { margin-bottom: 32px; }
         .contact-item h3 {
-            font-size: 20px;
-            font-weight: 700;
-            text-transform: uppercase;
-            margin-bottom: 12px;
+            font-size: 20px; font-weight: 700; text-transform: uppercase; margin-bottom: 12px;
         }
-
-        .contact-item p {
-            color: rgba(0, 0, 0, 0.7);
-        }
-
         .contact-item a {
-            color: rgba(0, 0, 0, 0.8);
-            text-decoration: none;
-            font-size: 18px;
-            transition: all 0.3s;
+            color: rgba(0,0,0,0.8); text-decoration: none;
+            font-size: 18px; transition: all 0.3s;
         }
+        .contact-item a:hover { color: var(--black); }
+        .contact-item p { color: rgba(0,0,0,0.7); }
 
-        .contact-item a:hover {
-            color: var(--black);
-        }
-
-        /* Footer */
+        /* FOOTER */
         footer {
-            background: var(--white);
-            padding: 60px 40px 40px;
+            background: var(--white); padding: 60px 40px 40px;
             border-top: 1px solid var(--border);
         }
-
-        .footer-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            text-align: center;
-        }
-
+        .footer-content { max-width: 1200px; margin: 0 auto; text-align: center; }
         .footer-logo {
-            height: 50px;
-            margin: 0 auto 40px;
-            display: flex;
-            justify-content: center;
+            height: 50px; margin: 0 auto 40px;
+            display: flex; justify-content: center; align-items: center;
         }
-
-        .footer-logo img {
-            height: 100%;
-            width: auto;
+        .footer-logo-text {
+            font-size: 28px; font-weight: 900; letter-spacing: -0.03em;
+            text-transform: uppercase; color: var(--black);
         }
-
         .footer-bottom {
-            margin-top: 40px;
-            padding-top: 30px;
+            margin-top: 40px; padding-top: 30px;
             border-top: 1px solid var(--border);
-            color: rgba(0, 0, 0, 0.6);
-            font-size: 14px;
+            color: rgba(0,0,0,0.6); font-size: 14px;
         }
 
-        /* Responsive */
+        /* RESPONSIVE */
         @media (max-width: 1024px) {
-            .comparison-header,
-            .comparison-row {
-                grid-template-columns: 2fr 1fr 1fr;
-                font-size: 13px;
-            }
-
-            .testimonials-grid {
-                grid-template-columns: 1fr;
+            .comparison-header, .comparison-row {
+                grid-template-columns: 2fr 1fr 1fr; font-size: 13px;
             }
         }
-
         @media (max-width: 968px) {
-            .hero h1 {
-                font-size: 56px;
-            }
-
-            .comparison-demo {
-                grid-template-columns: 1fr;
-                gap: 24px;
-            }
-
-            .hero::before {
-                font-size: 140px;
-            }
+            .hero h1 { font-size: 56px; }
+            .comparison-demo { grid-template-columns: 1fr; gap: 24px; }
+            .hero::before { font-size: 140px; }
+            .work-grid { grid-template-columns: 1fr; }
         }
-
         @media (max-width: 768px) {
-            nav {
-                padding: 20px;
-            }
-
-            .container {
-                padding: 0 20px;
-            }
-
-            .menu-links a {
-                font-size: 36px;
-            }
-
-            .hero {
-                padding: 80px 20px 60px;
-            }
-
-            .hero::before {
-                font-size: 100px;
-            }
-
-            .hero h1 {
-                font-size: 42px;
-            }
-
-            .hero-subtitle {
-                font-size: 16px;
-            }
-
-            .demo-column {
-                padding: 24px 16px;
-            }
-
-            .notification-stream {
-                min-height: 280px;
-            }
-
-            .section-title {
-                font-size: 40px;
-            }
-
-            .services-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .why-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .cta-section h2 {
-                font-size: 42px;
-            }
-
-            .about-hero h1,
-            .testimonials-hero h1,
-            .contact-hero h1 {
-                font-size: 48px;
-            }
-
-            .about-hero p,
-            .testimonials-hero p,
-            .contact-hero p {
-                font-size: 18px;
-            }
+            body { cursor: auto; }
+            .cursor, .cursor-ring { display: none; }
+            nav { padding: 20px; }
+            .menu-links a { font-size: 36px; }
+            .hero { padding: 80px 20px 60px; }
+            .hero::before { font-size: 100px; }
+            .hero h1 { font-size: 42px; }
+            .hero-subtitle { font-size: 16px; }
+            .demo-column { padding: 24px 16px; }
+            .notification-stream { min-height: 280px; }
+            .section-title { font-size: 40px; }
+            .services-grid { grid-template-columns: 1fr; }
+            .why-grid { grid-template-columns: 1fr; }
+            .cta-section h2 { font-size: 42px; }
+            .about-hero h1, .process-hero h1, .contact-hero h1 { font-size: 48px; }
+            .about-hero p, .process-hero p, .contact-hero p { font-size: 18px; }
+            .services-section, .work-section, .why-section, .comparison-section { padding: 80px 20px; }
+            .process-grid { grid-template-columns: 1fr; padding: 80px 20px; }
+            .about-content, .contact-content { padding: 80px 20px; }
+            .cta-section { padding: 100px 20px; }
+            .work-card, .service-card, .process-card { padding: 32px 24px; }
         }
     </style>
 </head>
 <body>
+    <!-- CURSOR -->
+    <div class="cursor" id="cursor"></div>
+    <div class="cursor-ring" id="cursorRing"></div>
+
     <header>
         <nav>
-            <div class="logo">
-                <img src="logo.png" alt="Onstra">
+            <div class="logo" id="logoBtn">
+                <span class="logo-text">Onstra</span>
             </div>
             <div class="hamburger" id="hamburger">
-                <span></span>
-                <span></span>
-                <span></span>
+                <span></span><span></span><span></span>
             </div>
         </nav>
     </header>
 
-    <!-- Full Screen Menu -->
+    <!-- FULLSCREEN MENU -->
     <div class="menu-overlay" id="menuOverlay">
         <div class="menu-content">
             <ul class="menu-links">
                 <li><a href="#" data-page="home">Home</a></li>
                 <li><a href="#" data-page="about">About Us</a></li>
-                <li><a href="#" data-page="testimonials">What to Expect</a></li>
+                <li><a href="#" data-page="process">What to Expect</a></li>
                 <li><a href="#" data-page="contact">Get In Touch</a></li>
             </ul>
-            <button class="menu-cta" id="menuCtaBtn">Schedule a Call</button>
+            <button class="menu-cta cta-button">Book a Call</button>
         </div>
     </div>
 
-    <!-- Home Page -->
+    <!-- HOME PAGE -->
     <div id="home" class="page-section active">
         <section class="hero">
             <div class="hero-container">
                 <div class="hero-top">
-                    <span class="hero-label">Automation for Service Businesses</span>
-                    <h1>Chaos vs Control</h1>
-                    <p class="hero-subtitle">See the difference automation makes in real-time</p>
+                    <span class="hero-label">Solutions for Service Businesses</span>
+                    <h1>Problem vs Solution</h1>
+                    <p class="hero-subtitle">See what running your business with the right tools actually looks like</p>
                 </div>
 
                 <div class="comparison-demo">
-                    <!-- CHAOS SIDE -->
                     <div class="demo-column chaos">
                         <div class="column-header">
-                            <div class="column-title">Without Automation</div>
-                            <div class="column-subtitle">Chaos</div>
+                            <div class="column-title">Without Onstra</div>
+                            <div class="column-subtitle">The Problem</div>
                         </div>
-                        <div class="notification-stream" id="chaosStream">
-                            <!-- Notifications appear here -->
+                        <div class="notification-stream">
+                            <div class="notification-card">
+                                <div class="notification-header">
+                                    <span class="notif-svg"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 3l10 10M13 3L3 13" stroke="#ef4444" stroke-width="2.5" stroke-linecap="round"/></svg></span>
+                                    <span class="notification-title">Missed Call</span>
+                                </div>
+                                <div class="notification-text">Customer called at 2:15 PM. No one answered, no follow-up sent.</div>
+                                <div class="notification-time">Just now</div>
+                            </div>
+                            <div class="notification-card">
+                                <div class="notification-header">
+                                    <span class="notif-svg"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 3l10 10M13 3L3 13" stroke="#ef4444" stroke-width="2.5" stroke-linecap="round"/></svg></span>
+                                    <span class="notification-title">Lead Lost</span>
+                                </div>
+                                <div class="notification-text">No estimate sent after yesterday's inquiry. Customer went with a competitor.</div>
+                                <div class="notification-time">1 hour ago</div>
+                            </div>
+                            <div class="notification-card">
+                                <div class="notification-header">
+                                    <span class="notif-svg"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 3l10 10M13 3L3 13" stroke="#ef4444" stroke-width="2.5" stroke-linecap="round"/></svg></span>
+                                    <span class="notification-title">Forgotten Job</span>
+                                </div>
+                                <div class="notification-text">Failed to log last Tuesday's job. Revenue not tracked.</div>
+                                <div class="notification-time">2 days ago</div>
+                            </div>
+                            <div class="notification-card">
+                                <div class="notification-header">
+                                    <span class="notif-svg"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 3l10 10M13 3L3 13" stroke="#ef4444" stroke-width="2.5" stroke-linecap="round"/></svg></span>
+                                    <span class="notification-title">Manual Chaos</span>
+                                </div>
+                                <div class="notification-text">Still manually texting 12 leads back one by one.</div>
+                                <div class="notification-time">3 hours ago</div>
+                            </div>
                         </div>
                     </div>
-
-                    <!-- CONTROL SIDE -->
                     <div class="demo-column control">
                         <div class="column-header">
-                            <div class="column-title">With Automation</div>
-                            <div class="column-subtitle">Control</div>
+                            <div class="column-title">With Onstra</div>
+                            <div class="column-subtitle">The Solution</div>
                         </div>
-                        <div class="notification-stream" id="controlStream">
-                            <!-- Notifications appear here -->
+                        <div class="notification-stream">
+                            <div class="notification-card">
+                                <div class="notification-header">
+                                    <span class="notif-svg"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><polyline points="2 8 6 12 14 4" stroke="#10b981" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                                    <span class="notification-title">Auto Response Sent</span>
+                                </div>
+                                <div class="notification-text">Instant SMS sent: "Thanks for reaching out! We will get back to you shortly."</div>
+                                <div class="notification-time">Just now</div>
+                            </div>
+                            <div class="notification-card">
+                                <div class="notification-header">
+                                    <span class="notif-svg"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><polyline points="2 8 6 12 14 4" stroke="#10b981" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                                    <span class="notification-title">Job Logged</span>
+                                </div>
+                                <div class="notification-text">Job details saved, profit tracked, invoice generated automatically.</div>
+                                <div class="notification-time">1 hour ago</div>
+                            </div>
+                            <div class="notification-card">
+                                <div class="notification-header">
+                                    <span class="notif-svg"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><polyline points="2 8 6 12 14 4" stroke="#10b981" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                                    <span class="notification-title">Estimate Delivered</span>
+                                </div>
+                                <div class="notification-text">Custom estimate sent and follow-up sequence started for that lead.</div>
+                                <div class="notification-time">2 days ago</div>
+                            </div>
+                            <div class="notification-card">
+                                <div class="notification-header">
+                                    <span class="notif-svg"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><polyline points="2 8 6 12 14 4" stroke="#10b981" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                                    <span class="notification-title">Appointment Booked</span>
+                                </div>
+                                <div class="notification-text">Customer scheduled via your booking system. No back and forth needed.</div>
+                                <div class="notification-time">3 hours ago</div>
+                            </div>
                         </div>
                     </div>
                 </div>
 
                 <div class="hero-cta-section">
-                    <p class="hero-description">Stop running your business from memory. We automate the chaos so you can focus on what matters.</p>
-                    <button class="hero-cta cta-button">Get Control Back</button>
+                    <p class="hero-description">Stop running your business on guesswork. We build the software and systems that give you control over every part of your operation.</p>
+                    <button class="hero-cta cta-button">Book a Call</button>
                 </div>
             </div>
         </section>
 
         <div class="scrolling-banner">
             <div class="banner-track">
-                <span class="banner-item">Systems That Scale</span>
-                <span class="banner-item">Ready-to-Close Appointments</span>
-                <span class="banner-item">No More Wasted Time</span>
-                <span class="banner-item">Rapid Results</span>
-                <span class="banner-item">Systems That Scale</span>
-                <span class="banner-item">Ready-to-Close Appointments</span>
-                <span class="banner-item">No More Wasted Time</span>
-                <span class="banner-item">Rapid Results</span>
+                <span class="banner-item">Custom Web Apps</span>
+                <span class="banner-item">CRM Systems</span>
+                <span class="banner-item">Business Automation</span>
+                <span class="banner-item">PWA Development</span>
+                <span class="banner-item">Website Development</span>
+                <span class="banner-item">Job Management</span>
+                <span class="banner-item">Invoice and Reporting</span>
+                <span class="banner-item">Custom Web Apps</span>
+                <span class="banner-item">CRM Systems</span>
+                <span class="banner-item">Business Automation</span>
+                <span class="banner-item">PWA Development</span>
+                <span class="banner-item">Website Development</span>
+                <span class="banner-item">Job Management</span>
+                <span class="banner-item">Invoice and Reporting</span>
             </div>
         </div>
 
         <section class="services-section">
             <div class="section-header">
                 <span class="section-label">What We Do</span>
-                <h2 class="section-title">Whether You're Just<br>Starting Out or Scaling Fast</h2>
+                <h2 class="section-title">We Find and Build<br>What You Need</h2>
             </div>
             <div class="services-grid">
                 <div class="service-card">
-                    <div class="service-icon"></div>
-                    <h3>Lead Capture & Routing</h3>
-                    <h4>Connect everything in one place</h4>
-                    <p>All your inbound channels (calls, texts, forms, social) into one system that never misses an inquiry.</p>
+                    <div class="service-icon">
+                        <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect x="4" y="6" width="32" height="22" rx="2" stroke="white" stroke-width="2.2" fill="none"/>
+                            <path d="M14 34h12M20 28v6" stroke="white" stroke-width="2.2" stroke-linecap="round"/>
+                            <path d="M10 14h6M10 19h14" stroke="white" stroke-width="2" stroke-linecap="round" opacity="0.6"/>
+                        </svg>
+                    </div>
+                    <h3>Custom Web Apps and PWAs</h3>
+                    <h4>Built around how you actually work</h4>
+                    <p>Installable, mobile-first apps designed for your specific workflow. Job tracking, pricing calculators, customer management. Everything your team needs in one place.</p>
+                    <div class="service-tags">
+                        <span class="service-tag">PWA</span>
+                        <span class="service-tag">Mobile First</span>
+                        <span class="service-tag">Offline Ready</span>
+                    </div>
                 </div>
                 <div class="service-card">
-                    <div class="service-icon"></div>
-                    <h3>Automated Follow-Up</h3>
-                    <h4>Never miss a lead again</h4>
-                    <p>Sequences that automatically reach out to leads via text, email, or voicemail until they respond.</p>
+                    <div class="service-icon">
+                        <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect x="4" y="4" width="15" height="15" rx="2" stroke="white" stroke-width="2.2" fill="none"/>
+                            <rect x="4" y="22" width="15" height="14" rx="2" stroke="white" stroke-width="2.2" fill="none"/>
+                            <rect x="22" y="4" width="14" height="32" rx="2" stroke="white" stroke-width="2.2" fill="none"/>
+                            <path d="M8 30h7M8 33h4" stroke="white" stroke-width="1.8" stroke-linecap="round" opacity="0.6"/>
+                        </svg>
+                    </div>
+                    <h3>CRMs and Job Management</h3>
+                    <h4>Stop running your business from memory</h4>
+                    <p>Custom CRMs that track leads, manage jobs, generate invoices, and keep your whole team aligned. Built for how your business actually operates, not a generic template.</p>
+                    <div class="service-tags">
+                        <span class="service-tag">Lead Tracking</span>
+                        <span class="service-tag">Job Logs</span>
+                        <span class="service-tag">Invoicing</span>
+                    </div>
                 </div>
                 <div class="service-card">
-                    <div class="service-icon"></div>
-                    <h3>Booking & Sales Automation</h3>
-                    <h4>Turn leads into revenue</h4>
-                    <p>Guide prospects from initial contact to booked appointment or completed sale without manual intervention.</p>
+                    <div class="service-icon">
+                        <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="20" cy="20" r="7" stroke="white" stroke-width="2.2" fill="none"/>
+                            <path d="M20 6v4M20 30v4M6 20h4M30 20h4" stroke="white" stroke-width="2.2" stroke-linecap="round"/>
+                            <path d="M10.1 10.1l2.8 2.8M27.1 27.1l2.8 2.8M29.9 10.1l-2.8 2.8M12.9 27.1l-2.8 2.8" stroke="white" stroke-width="2" stroke-linecap="round" opacity="0.6"/>
+                        </svg>
+                    </div>
+                    <h3>Automation and Workflows</h3>
+                    <h4>Eliminate the work that eats your time</h4>
+                    <p>Connect your tools, automate your follow-ups, and build systems that run themselves. From lead capture to closed job, we wire everything together so nothing falls through the cracks.</p>
+                    <div class="service-tags">
+                        <span class="service-tag">Follow-Up</span>
+                        <span class="service-tag">Integrations</span>
+                        <span class="service-tag">Reporting</span>
+                    </div>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect x="4" y="8" width="32" height="24" rx="2" stroke="white" stroke-width="2.2" fill="none"/>
+                            <path d="M4 14h32" stroke="white" stroke-width="2.2"/>
+                            <circle cx="10" cy="11" r="1.5" fill="white" opacity="0.5"/>
+                            <circle cx="15" cy="11" r="1.5" fill="white" opacity="0.5"/>
+                            <circle cx="20" cy="11" r="1.5" fill="white" opacity="0.5"/>
+                            <path d="M11 21h6M11 26h12M21 21h8" stroke="white" stroke-width="1.8" stroke-linecap="round" opacity="0.6"/>
+                        </svg>
+                    </div>
+                    <h3>Website Development</h3>
+                    <h4>Your business deserves a real presence</h4>
+                    <p>Custom websites built to convert visitors into customers. Fast, mobile optimized, and designed around what your business actually needs to communicate. No page builders, no generic themes.</p>
+                    <div class="service-tags">
+                        <span class="service-tag">Custom Design</span>
+                        <span class="service-tag">Mobile Optimized</span>
+                        <span class="service-tag">Built to Convert</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- REAL WORK -->
+        <section class="work-section">
+            <div class="section-header">
+                <span class="section-label">Real Builds</span>
+                <h2 class="section-title">What We've Shipped</h2>
+            </div>
+            <div class="work-grid">
+                <div class="work-card">
+                    <div class="work-industry">Mobile Repair Industry</div>
+                    <div class="work-name">Tech Revive Wireless</div>
+                    <p class="work-desc">A complete business management PWA for an on-location phone repair service. Built for a tech in the field, not sitting at a desk. Job logging, profit tracking, mileage, and more all in one installable app.</p>
+                    <div class="work-features">
+                        <span class="work-feature">Job Logging</span>
+                        <span class="work-feature">Profit Calculator</span>
+                        <span class="work-feature">Mileage Tracking</span>
+                        <span class="work-feature">IRS Deduction Breakdown</span>
+                        <span class="work-feature">PIN Login</span>
+                        <span class="work-feature">Dark Mode</span>
+                        <span class="work-feature">PWA Install</span>
+                    </div>
+                </div>
+                <div class="work-card">
+                    <div class="work-industry">HVAC Industry</div>
+                    <div class="work-name">Top Air HVAC</div>
+                    <p class="work-desc">A full field-service app with dashboard analytics, Google Sheets sync, bilingual support, and PDF invoice generation. Handles the entire job lifecycle from first contact to paid invoice.</p>
+                    <div class="work-features">
+                        <span class="work-feature">Invoice PDF Gen</span>
+                        <span class="work-feature">Dashboard Analytics</span>
+                        <span class="work-feature">Google Sheets Sync</span>
+                        <span class="work-feature">Photo Uploads</span>
+                        <span class="work-feature">Inventory Module</span>
+                        <span class="work-feature">English and Spanish</span>
+                        <span class="work-feature">Service List</span>
+                    </div>
                 </div>
             </div>
         </section>
@@ -1203,68 +775,56 @@
             <div class="why-grid">
                 <div class="why-item">
                     <div class="why-icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
-                            <polyline points="20 6 9 17 4 12"></polyline>
-                        </svg>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
                     </div>
                     <div>
-                        <h3>Automation First</h3>
-                        <p>We automate what you already have: your leads, your follow ups, your workflows. No upsells, no lead gen pitches.</p>
+                        <h3>Solutions First</h3>
+                        <p>We find what your business actually needs and build it. No generic templates, no upsells, no lead gen pitches. Just the right solution for your operation.</p>
                     </div>
                 </div>
                 <div class="why-item">
                     <div class="why-icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
-                            <polyline points="20 6 9 17 4 12"></polyline>
-                        </svg>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
                     </div>
                     <div>
                         <h3>Service Business Focused</h3>
-                        <p>We understand the chaos of running a service business because we've built systems for operators like you.</p>
+                        <p>We understand the chaos of running a service business because we have built software for operators like you. HVAC, mobile repair, field service. We know this world.</p>
                     </div>
                 </div>
                 <div class="why-item">
                     <div class="why-icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
-                            <polyline points="20 6 9 17 4 12"></polyline>
-                        </svg>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
                     </div>
                     <div>
-                        <h3>Flexible Engagement</h3>
-                        <p>Retainers or one-time setups. Short-term or long-term. Cancel anytime. We adapt to how you work.</p>
+                        <h3>You Own It</h3>
+                        <p>No subscriptions to us to keep your software running. No locked ecosystems. What we build is yours, fully. One time builds or ongoing retainers, we adapt to how you work.</p>
                     </div>
                 </div>
                 <div class="why-item">
                     <div class="why-icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
-                            <polyline points="20 6 9 17 4 12"></polyline>
-                        </svg>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
                     </div>
                     <div>
-                        <h3>Fast & Responsive</h3>
-                        <p>No waiting weeks for updates. We move fast, optimize aggressively, and stay on top of your systems.</p>
+                        <h3>Mobile First by Default</h3>
+                        <p>Everything we build works on the device your team actually uses. A phone in the field, not just a desktop in an office. Installable, fast, and built for how you move.</p>
                     </div>
                 </div>
                 <div class="why-item">
                     <div class="why-icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
-                            <polyline points="20 6 9 17 4 12"></polyline>
-                        </svg>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
                     </div>
                     <div>
-                        <h3>Control & Clarity</h3>
-                        <p>Finally see where every lead comes from, what's working, and what needs fixing. No more guessing.</p>
+                        <h3>Fast and Responsive</h3>
+                        <p>No waiting weeks for updates. We move fast, iterate aggressively, and stay on top of your systems. You will always know where your project stands.</p>
                     </div>
                 </div>
                 <div class="why-item">
                     <div class="why-icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
-                            <polyline points="20 6 9 17 4 12"></polyline>
-                        </svg>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
                     </div>
                     <div>
                         <h3>Real Support</h3>
-                        <p>You're not account #247. We're hands-on, available, and actually care about making your systems work.</p>
+                        <p>You are not account number 247. We are hands-on, available, and actually care about making your systems work. Direct communication, no middlemen, no runaround.</p>
                     </div>
                 </div>
             </div>
@@ -1283,159 +843,166 @@
                 </div>
                 <div class="comparison-row">
                     <div>Built by operators who understand service businesses</div>
-                    <div class="comparison-check no">✕</div>
-                    <div class="comparison-check yes">✓</div>
+                    <div class="comparison-check no">
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M5 5l10 10M15 5L5 15" stroke="#ef4444" stroke-width="2.5" stroke-linecap="round"/></svg>
+                    </div>
+                    <div class="comparison-check yes">
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><polyline points="3 10 8 15 17 5" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </div>
                 </div>
                 <div class="comparison-row">
-                    <div>Cancel anytime, no locked-in contracts</div>
-                    <div class="comparison-check no">✕</div>
-                    <div class="comparison-check yes">✓</div>
+                    <div>Custom built for your specific workflow, not a template</div>
+                    <div class="comparison-check no">
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M5 5l10 10M15 5L5 15" stroke="#ef4444" stroke-width="2.5" stroke-linecap="round"/></svg>
+                    </div>
+                    <div class="comparison-check yes">
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><polyline points="3 10 8 15 17 5" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </div>
                 </div>
                 <div class="comparison-row">
-                    <div>Automate what you already have, no lead generation upsells</div>
-                    <div class="comparison-check no">✕</div>
-                    <div class="comparison-check yes">✓</div>
+                    <div>You own the software with no ongoing subscription to us</div>
+                    <div class="comparison-check no">
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M5 5l10 10M15 5L5 15" stroke="#ef4444" stroke-width="2.5" stroke-linecap="round"/></svg>
+                    </div>
+                    <div class="comparison-check yes">
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><polyline points="3 10 8 15 17 5" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </div>
                 </div>
                 <div class="comparison-row">
-                    <div>Fast response times and aggressive optimization</div>
-                    <div class="comparison-check no">✕</div>
-                    <div class="comparison-check yes">✓</div>
+                    <div>Fast response times and aggressive iteration</div>
+                    <div class="comparison-check no">
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M5 5l10 10M15 5L5 15" stroke="#ef4444" stroke-width="2.5" stroke-linecap="round"/></svg>
+                    </div>
+                    <div class="comparison-check yes">
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><polyline points="3 10 8 15 17 5" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </div>
                 </div>
                 <div class="comparison-row">
-                    <div>Transparent pricing: retainers or one-time setups</div>
-                    <div class="comparison-check no">✕</div>
-                    <div class="comparison-check yes">✓</div>
+                    <div>Mobile first PWA builds that work in the field</div>
+                    <div class="comparison-check no">
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M5 5l10 10M15 5L5 15" stroke="#ef4444" stroke-width="2.5" stroke-linecap="round"/></svg>
+                    </div>
+                    <div class="comparison-check yes">
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><polyline points="3 10 8 15 17 5" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </div>
                 </div>
             </div>
         </section>
 
         <section class="cta-section">
-            <h2>Ready to Take<br>Control?</h2>
-            <p>Let's talk about automating your business so you can finally stop running everything from memory.</p>
-            <button class="hero-cta cta-button">Schedule a Call</button>
+            <h2>Ready to Find<br>Your Solution?</h2>
+            <p>Tell us what your business needs. We will figure out exactly how to build it.</p>
+            <button class="hero-cta cta-button">Book a Call</button>
         </section>
     </div>
 
-    <!-- About Us Page -->
+    <!-- ABOUT PAGE -->
     <div id="about" class="page-section">
         <section class="about-hero">
             <h1>About Onstra</h1>
-            <p>We're operators who got tired of watching service businesses drown in chaos. So we built something better.</p>
+            <p>We got tired of watching service businesses duct tape generic software together. So we started building what they actually needed.</p>
         </section>
-
         <section class="about-content">
             <div class="about-grid">
                 <div class="about-block">
                     <h2>Our Story</h2>
-                    <p>Onstra was born from frustration. We watched talented service business owners waste hours on repetitive tasks, lose leads to disorganization, and burn out trying to scale operations that ran entirely from memory.</p>
-                    <p>We knew there had to be a better way. Not through generic advice or cookie cutter solutions, but through real automation that actually works for how service businesses operate.</p>
+                    <p>Onstra started from frustration. We watched talented service business owners waste hours on tools that almost fit, lose jobs to disorganization, and burn out managing operations that existed entirely in their heads.</p>
+                    <p>We knew the answer was not another SaaS subscription. It was software built from scratch around how each business actually operates.</p>
                 </div>
-
                 <div class="about-block">
                     <h2>What We Believe</h2>
-                    <p>Your time is too valuable to waste on manual busywork. Every lead deserves a response. Every follow-up should happen automatically. Every system should work for you, not against you.</p>
-                    <p>We believe in automation that's practical, not flashy. Solutions that launch fast and improve quickly. Relationships built on results, not contracts.</p>
+                    <p>Your time is too valuable to spend fighting software that was not built for you. Every business deserves a system that fits how it works, not the other way around.</p>
+                    <p>We believe in solutions that are practical and built to last. No fluff, no upsells, no contracts that lock you in. Just software that solves real problems.</p>
                 </div>
-
                 <div class="about-block">
                     <h2>How We Work</h2>
-                    <p>We dive deep into your business, understand your chaos, and build systems that eliminate it. No fluff, no upsells, no BS. Just automation that captures leads, nurtures prospects, and books appointments while you focus on delivering great service.</p>
-                    <p>We move fast, stay responsive, and obsess over making your systems better. Because when you win, we win.</p>
+                    <p>We sit down with you, understand your operation, identify what is broken, and build the right thing. Whether that is a full CRM, a field service app, a job management PWA, or workflow automation, we scope it right and build it fast.</p>
+                    <p>We move quickly, stay communicative, and obsess over making your systems work. Because when your business runs better, we have done our job.</p>
                 </div>
             </div>
         </section>
-
         <section class="cta-section">
             <h2>Ready to Work<br>Together?</h2>
-            <p>Let's build the automated systems your business deserves.</p>
-            <button class="hero-cta cta-button">Schedule a Call</button>
+            <p>Let us build the software your business actually needs.</p>
+            <button class="hero-cta cta-button">Book a Call</button>
         </section>
     </div>
 
-    <!-- What to Expect Page -->
-    <div id="testimonials" class="page-section">
-        <section class="testimonials-hero">
+    <!-- PROCESS PAGE -->
+    <div id="process" class="page-section">
+        <section class="process-hero">
             <h1>What to Expect</h1>
-            <p>Here's exactly how we'll transform your business operations from chaos to clarity.</p>
+            <p>Here is exactly how we go from understanding your business to handing you software that works.</p>
         </section>
-
-        <section class="testimonials-grid">
-            <div class="testimonial-card">
-                <div class="testimonial-stars">01</div>
-                <h3 style="font-size: 24px; font-weight: 700; text-transform: uppercase; margin-bottom: 16px;">Discovery Call</h3>
-                <p class="testimonial-text">We start with a deep dive conversation about your business. What's working? What's broken? Where are leads falling through the cracks? We'll identify the biggest pain points and opportunities for automation.</p>
+        <div class="process-grid">
+            <div class="process-card">
+                <div class="process-num">01</div>
+                <h3>Discovery Call</h3>
+                <p>We start with a deep conversation about your business. What is working, what is broken, and where are things falling through the cracks. We identify the biggest pain points and figure out what to build first.</p>
             </div>
-
-            <div class="testimonial-card">
-                <div class="testimonial-stars">02</div>
-                <h3 style="font-size: 24px; font-weight: 700; text-transform: uppercase; margin-bottom: 16px;">Custom Proposal</h3>
-                <p class="testimonial-text">After our call, we'll analyze your needs and send you a tailored solution. No cookie cutter templates, just what actually fits your business. We'll outline the systems, timeline, and investment required.</p>
+            <div class="process-card">
+                <div class="process-num">02</div>
+                <h3>Custom Proposal</h3>
+                <p>After our call we analyze your needs and send you a tailored solution. No cookie cutter templates, just what actually fits your operation. We outline what we will build, the timeline, and the investment required.</p>
             </div>
-
-            <div class="testimonial-card">
-                <div class="testimonial-stars">03</div>
-                <h3 style="font-size: 24px; font-weight: 700; text-transform: uppercase; margin-bottom: 16px;">Setup & Implementation</h3>
-                <p class="testimonial-text">We configure and connect the automation tools your business needs. Lead capture from your website, automated follow ups via text and email, appointment booking systems, and voice AI if it makes sense for you.</p>
+            <div class="process-card">
+                <div class="process-num">03</div>
+                <h3>Build and Iterate</h3>
+                <p>We build fast and loop you in early. You see real progress, not a reveal at the end. We adjust based on how it works in your hands and keep moving until it fits exactly right.</p>
             </div>
-
-            <div class="testimonial-card">
-                <div class="testimonial-stars">04</div>
-                <h3 style="font-size: 24px; font-weight: 700; text-transform: uppercase; margin-bottom: 16px;">Fine Tuning</h3>
-                <p class="testimonial-text">We don't just build and disappear. We monitor performance, optimize sequences, and make adjustments based on real results. Your systems get better over time, not stale.</p>
+            <div class="process-card">
+                <div class="process-num">04</div>
+                <h3>Launch and Handoff</h3>
+                <p>We hand it off clean, documented, and fully working. Your team can use it from day one. Ongoing support is available whether through a retainer or as needed. We do not disappear after delivery.</p>
             </div>
-
-            <div class="testimonial-card">
-                <div class="testimonial-stars">05</div>
-                <h3 style="font-size: 24px; font-weight: 700; text-transform: uppercase; margin-bottom: 16px;">Ongoing Support</h3>
-                <p class="testimonial-text">Whether it's a retainer or one time setup, we're responsive and available. Questions? Changes? New ideas? We move fast and keep your systems running smoothly.</p>
+            <div class="process-card">
+                <div class="process-num">05</div>
+                <h3>Ongoing Support</h3>
+                <p>New ideas, changes, or expansions as your business grows. We stay responsive and available. One time build or long term partner, we move at your pace and keep your systems running.</p>
             </div>
-
-            <div class="testimonial-card">
-                <div class="testimonial-stars">06</div>
-                <h3 style="font-size: 24px; font-weight: 700; text-transform: uppercase; margin-bottom: 16px;">Tailored Solutions</h3>
-                <p class="testimonial-text">We select and configure the right automation tools for your specific situation. Every business operates differently, so we customize everything to match how you actually work, not force you into a template.</p>
+            <div class="process-card">
+                <div class="process-num">06</div>
+                <h3>Tailored to You</h3>
+                <p>Every business operates differently. We never force you into a framework. Everything we build is customized to match how you actually work, your team, your pricing, your workflow.</p>
             </div>
-        </section>
-
-        <section class="cta-section">
+        </div>
+        <section class="cta-section" style="background: var(--white);">
             <h2>Ready to See How<br>This Works?</h2>
-            <p>Book a discovery call and let's map out your automation journey.</p>
-            <button class="hero-cta cta-button">Schedule Your Discovery Call</button>
+            <p>Book a call and let us map out exactly what we will build for your business.</p>
+            <button class="hero-cta cta-button">Book a Discovery Call</button>
         </section>
     </div>
 
-    <!-- Contact Page -->
+    <!-- CONTACT PAGE -->
     <div id="contact" class="page-section">
         <section class="contact-hero">
             <h1>Get In Touch</h1>
-            <p>Ready to stop running your business from memory? Let's talk about automating your chaos.</p>
-            <button class="hero-cta cta-button">Schedule a Call Now</button>
+            <p>Ready to stop running your business on memory and guesswork? Let us talk about what to build.</p>
+            <button class="hero-cta cta-button">Book a Call Now</button>
         </section>
-
         <section class="contact-content">
             <div class="contact-info">
                 <div class="contact-item">
                     <h3>Email Us</h3>
-                    <a href="mailto:Onstrahq@gmail.com">Onstrahq@gmail.com</a>
+                    <a href="/cdn-cgi/l/email-protection#5e11302d2a2c3f362f1e39333f3732703d3133"><span class="__cf_email__" data-cfemail="eba485989f998a839aab8c868a8287c5888486">[email&#160;protected]</span></a>
                 </div>
                 <div class="contact-item">
-                    <h3>Quick Response</h3>
-                    <p style="color: var(--light-grey); font-size: 16px;">We typically respond within 2-4 hours during business hours.</p>
+                    <h3>Response Time</h3>
+                    <p style="font-size:16px;">We typically respond within 2 to 4 hours during business hours.</p>
                 </div>
             </div>
         </section>
-
-        <section class="cta-section">
+        <section class="cta-section" style="background: var(--white);">
             <h2>The Fastest Way<br>To Get Started</h2>
-            <p>Book a consultation call and we'll show you exactly how we can automate your business.</p>
-            <button class="hero-cta cta-button">Schedule Your Call</button>
+            <p>Book a call and we will show you exactly how we can build the right solution for your business.</p>
+            <button class="hero-cta cta-button">Book Your Call</button>
         </section>
     </div>
 
     <footer>
         <div class="footer-content">
             <div class="footer-logo">
-                <img src="logo.png" alt="Onstra">
+                <span class="footer-logo-text">Onstra</span>
             </div>
             <div class="footer-bottom">
                 <p>© 2026 Onstra. All rights reserved.</p>
@@ -1443,205 +1010,62 @@
         </div>
     </footer>
 
-    <script>
-        // Chaos vs Control Animation
-        const chaosNotifications = [
-            {
-                icon: '✕',
-                title: 'Missed Call',
-                text: 'Customer called at 2:15 PM, no answer',
-                time: 'Just now',
-                delay: 0
-            },
-            {
-                icon: '✕',
-                title: 'Lead Lost',
-                text: 'No follow-up sent. Customer chose competitor.',
-                time: '30 min ago',
-                delay: 1800
-            },
-            {
-                icon: '✕',
-                title: 'Forgotten Task',
-                text: 'Forgot to send estimate to Sarah from yesterday',
-                time: '1 day ago',
-                delay: 1800
-            },
-            {
-                icon: '✕',
-                title: 'Manual Work',
-                text: 'Need to manually respond to 15 leads today',
-                time: '2 hours ago',
-                delay: 1800
-            }
-        ];
-
-        const controlNotifications = [
-            {
-                icon: '✓',
-                title: 'Auto-Response',
-                text: 'Instant SMS sent: "Thanks for calling! How can we help?"',
-                time: 'Just now',
-                delay: 0
-            },
-            {
-                icon: '✓',
-                title: 'Lead Captured',
-                text: 'Customer info saved to CRM automatically',
-                time: '30 min ago',
-                delay: 1800
-            },
-            {
-                icon: '✓',
-                title: 'Follow-up Sent',
-                text: 'Estimate delivered & follow-up sequence started',
-                time: '1 day ago',
-                delay: 1800
-            },
-            {
-                icon: '✓',
-                title: 'Booked Appointment',
-                text: 'Customer scheduled consultation via auto calendar',
-                time: '2 hours ago',
-                delay: 1800
-            }
-        ];
-
-        function createNotificationCard(notification) {
-            const card = document.createElement('div');
-            card.className = 'notification-card';
-            card.innerHTML = `
-                <div class="notification-header">
-                    <span class="notification-icon">${notification.icon}</span>
-                    <span class="notification-title">${notification.title}</span>
-                </div>
-                <div class="notification-text">${notification.text}</div>
-                <div class="notification-time">${notification.time}</div>
-            `;
-            return card;
-        }
-
-        function animateStream(notifications, containerId) {
-            const container = document.getElementById(containerId);
-            let currentIndex = 0;
-            let totalDelay = 0;
-
-            function showNextNotification() {
-                if (currentIndex >= notifications.length) {
-                    // Clear all and restart
-                    setTimeout(() => {
-                        const cards = container.querySelectorAll('.notification-card');
-                        cards.forEach((card, index) => {
-                            setTimeout(() => {
-                                card.classList.add('fade-out');
-                            }, index * 100);
-                        });
-
-                        setTimeout(() => {
-                            container.innerHTML = '';
-                            currentIndex = 0;
-                            totalDelay = 0;
-                            showNextNotification();
-                        }, cards.length * 100 + 500);
-                    }, 3000);
-                    return;
-                }
-
-                const notification = notifications[currentIndex];
-                totalDelay += notification.delay;
-
-                setTimeout(() => {
-                    const card = createNotificationCard(notification);
-                    container.appendChild(card);
-                    currentIndex++;
-                    showNextNotification();
-                }, totalDelay);
-            }
-
-            showNextNotification();
-        }
-
-        // Start animations when page loads
-        window.addEventListener('load', () => {
-            setTimeout(() => {
-                animateStream(chaosNotifications, 'chaosStream');
-                animateStream(controlNotifications, 'controlStream');
-            }, 300);
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+        // CURSOR
+        const cursor = document.getElementById('cursor');
+        const ring = document.getElementById('cursorRing');
+        let mx = 0, my = 0, rx = 0, ry = 0;
+        document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+        (function animCursor() {
+            cursor.style.left = mx + 'px'; cursor.style.top = my + 'px';
+            rx += (mx - rx) * 0.12; ry += (my - ry) * 0.12;
+            ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
+            requestAnimationFrame(animCursor);
+        })();
+        document.querySelectorAll('a, button, .hamburger, .logo').forEach(el => {
+            el.addEventListener('mouseenter', () => { cursor.classList.add('hover'); ring.classList.add('hover'); });
+            el.addEventListener('mouseleave', () => { cursor.classList.remove('hover'); ring.classList.remove('hover'); });
         });
 
-        // Hamburger Menu Toggle
+        // HAMBURGER
         const hamburger = document.getElementById('hamburger');
         const menuOverlay = document.getElementById('menuOverlay');
-        const body = document.body;
-
         hamburger.addEventListener('click', () => {
             hamburger.classList.toggle('active');
             menuOverlay.classList.toggle('active');
-            body.classList.toggle('menu-open');
+            document.body.classList.toggle('menu-open');
         });
 
-        // Logo Click - Navigate to Home
-        const logo = document.querySelector('.logo');
-        logo.addEventListener('click', () => {
-            const pageSections = document.querySelectorAll('.page-section');
-            pageSections.forEach(section => {
-                section.classList.remove('active');
-            });
-            
+        // LOGO
+        document.getElementById('logoBtn').addEventListener('click', () => {
+            document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active'));
             document.getElementById('home').classList.add('active');
-            
             hamburger.classList.remove('active');
             menuOverlay.classList.remove('active');
-            body.classList.remove('menu-open');
-            
+            document.body.classList.remove('menu-open');
             window.scrollTo(0, 0);
         });
 
-        // Page Navigation
-        const menuLinks = document.querySelectorAll('.menu-links a');
-        const pageSections = document.querySelectorAll('.page-section');
-
-        menuLinks.forEach(link => {
-            link.addEventListener('click', (e) => {
+        // NAV
+        document.querySelectorAll('.menu-links a').forEach(link => {
+            link.addEventListener('click', e => {
                 e.preventDefault();
-                const targetPage = link.getAttribute('data-page');
-                
-                pageSections.forEach(section => {
-                    section.classList.remove('active');
-                });
-                
-                document.getElementById(targetPage).classList.add('active');
-                
+                const target = link.getAttribute('data-page');
+                document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active'));
+                document.getElementById(target).classList.add('active');
                 hamburger.classList.remove('active');
                 menuOverlay.classList.remove('active');
-                body.classList.remove('menu-open');
-                
+                document.body.classList.remove('menu-open');
                 window.scrollTo(0, 0);
             });
         });
 
-        // Calendly Popup Integration
+        // CALENDLY
         function openCalendly() {
-            Calendly.initPopupWidget({
-                url: 'https://calendly.com/onstrahq/setup-and-growth-consultation-1'
-            });
+            Calendly.initPopupWidget({ url: 'https://calendly.com/onstrahq/setup-and-growth-consultation-1' });
             return false;
         }
+        document.querySelectorAll('.cta-button').forEach(btn => btn.addEventListener('click', openCalendly));
 
-        // Add click handlers to all CTA buttons
-        const ctaButtons = document.querySelectorAll('.cta-button, .menu-cta');
-        ctaButtons.forEach(button => {
-            button.addEventListener('click', openCalendly);
-        });
-
-        // Close menu when clicking outside
-        menuOverlay.addEventListener('click', (e) => {
-            if (e.target === menuOverlay) {
-                hamburger.classList.remove('active');
-                menuOverlay.classList.remove('active');
-                body.classList.remove('menu-open');
-            }
-        });
-    </script>
-</body>
-</html>
+        menuOverlay.addEventListener('click', e => {
+            if (e.target === m
