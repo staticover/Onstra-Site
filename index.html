@@ -27,36 +27,9 @@
             color: var(--black);
             line-height: 1.6;
             overflow-x: hidden;
-            cursor: none;
         }
 
         body.menu-open { overflow: hidden; }
-
-        /* CUSTOM CURSOR */
-        .cursor {
-            width: 10px; height: 10px;
-            background: var(--black);
-            border-radius: 50%;
-            position: fixed;
-            pointer-events: none;
-            z-index: 9999;
-            transform: translate(-50%, -50%);
-            transition: width 0.2s, height 0.2s, background 0.2s;
-        }
-        .cursor-ring {
-            width: 32px; height: 32px;
-            border: 1.5px solid rgba(0,0,0,0.3);
-            border-radius: 50%;
-            position: fixed;
-            pointer-events: none;
-            z-index: 9998;
-            transform: translate(-50%, -50%);
-            transition: width 0.3s, height 0.3s, border-color 0.3s;
-        }
-        .cursor.hover { width: 18px; height: 18px; }
-        .cursor-ring.hover { width: 44px; height: 44px; border-color: rgba(0,0,0,0.15); }
-        .menu-overlay.active ~ * .cursor,
-        .menu-overlay.active .cursor { background: var(--black); }
 
         /* HEADER */
         header {
@@ -476,8 +449,6 @@
             .work-grid { grid-template-columns: 1fr; }
         }
         @media (max-width: 768px) {
-            body { cursor: auto; }
-            .cursor, .cursor-ring { display: none; }
             nav { padding: 20px; }
             .menu-links a { font-size: 36px; }
             .hero { padding: 80px 20px 60px; }
@@ -501,10 +472,6 @@
     </style>
 </head>
 <body>
-    <!-- CURSOR -->
-    <div class="cursor" id="cursor"></div>
-    <div class="cursor-ring" id="cursorRing"></div>
-
     <header>
         <nav>
             <div class="logo" id="logoBtn">
@@ -1011,22 +978,6 @@
     </footer>
 
     <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
-        // CURSOR
-        const cursor = document.getElementById('cursor');
-        const ring = document.getElementById('cursorRing');
-        let mx = 0, my = 0, rx = 0, ry = 0;
-        document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
-        (function animCursor() {
-            cursor.style.left = mx + 'px'; cursor.style.top = my + 'px';
-            rx += (mx - rx) * 0.12; ry += (my - ry) * 0.12;
-            ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
-            requestAnimationFrame(animCursor);
-        })();
-        document.querySelectorAll('a, button, .hamburger, .logo').forEach(el => {
-            el.addEventListener('mouseenter', () => { cursor.classList.add('hover'); ring.classList.add('hover'); });
-            el.addEventListener('mouseleave', () => { cursor.classList.remove('hover'); ring.classList.remove('hover'); });
-        });
-
         // HAMBURGER
         const hamburger = document.getElementById('hamburger');
         const menuOverlay = document.getElementById('menuOverlay');
